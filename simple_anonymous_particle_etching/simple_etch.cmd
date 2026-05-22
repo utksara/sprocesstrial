@@ -1,30 +1,18 @@
-# Sprocess script for simple anonymous particle etching
-set w 1.0
-set N 10
-set m 20
-set mesh_size [expr {0.01 * $w}]
-set def_radius [expr {0.05 * $w}]
+# 1. Define a basic 2D grid layout (1 micron wide by 1 micron deep)
+line x location=0.0 spacing=0.1
+line x location=1.0 spacing=0.1
 
-# Surface preparation
-line x location=0 spacing=$mesh_size
-line x location=$w spacing=$mesh_size
-line y location=0 spacing=$mesh_size
-line y location=1.0 spacing=$mesh_size
-region silicon xlo=0 xhi=$w ylo=0 yhi=1.0
+line y location=0.0 spacing=0.1
+line y location=1.0 spacing=0.1
 
-# Monte Carlo and deformation (simplified loop structure for demonstration)
-for {set j 0} {$j < $m} {incr j} {
-    for {set i 0} {$i < $N} {incr i} {
-        # Calculate random number and gaussian probability (placeholder)
-        set rand [expr {rand()}]
-        set prob 0.5
-        # Save geometry at each step
-        struct out=[format "step_j%d_i%d.tdr" $j $i]
-        if {$rand < $prob} {
-            # Apply deformation
-            etch silicon rate=1.0 time=0.1
-        }
-    }
-    # Re-mesh
-    grid remesh
-}
+# 2. Initialize the grid space as a solid Silicon substrate
+init silicon
+
+# 3. Perform a simple geometric etch
+# This etches a 0.4 micron deep trench exactly in the middle (from X=0.3 to X=0.7)
+etch material=silicon type=anisotropic thickness=0.4 left=0.3 right=0.7
+
+# 4. Save the resulting structure directly to a TDR file
+struct tdr=simple_etch_out.tdr
+
+exit

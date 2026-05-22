@@ -24,7 +24,7 @@ Compiled Tue Feb 13 13:27:01 PST 2024 on sce-tcad-build01
 Operating system: Linux rel. 3.10.0-1160.114.2.el7.x86_64 ver. #1 SMP Wed Mar 20 15:54:52 UTC 2024
 
 ------------------------------------------------------------------------------
-Checking syntax of simple_etch.cmd:
+Checking syntax of simple_surface.cmd:
 Unknown parameter out
 Suggestion/s:
      sat
@@ -35,7 +35,7 @@ Suggestion/s:
     invoked from within
     for {set i 0} {$i < $N} {incr i} {
         # Calculate random number and gaussian probab..."
-    (file "simple_etch.cmd" line 16)
+    (file "simple_surface.cmd" line 16)
 
 Failure during syntax check, aborting.
 ------------------------------------------------------------------------------
