@@ -1,4 +1,4 @@
-ec8ee97c976beb18f52f332b0940adac09aa4eaa# Sprocess script for simple anonymous particle etching
+# Sprocess script for simple anonymous particle etching
 set w 1.0
 set N 10
 set m 20
