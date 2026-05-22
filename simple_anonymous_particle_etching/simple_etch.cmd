@@ -1,4 +1,4 @@
-# Sprocess script for simple anonymous particle etching
+ec8ee97c976beb18f52f332b0940adac09aa4eaa# Sprocess script for simple anonymous particle etching
 set w 1.0
 set N 10
 set m 20
@@ -19,13 +19,12 @@ for {set j 0} {$j < $m} {incr j} {
         set rand [expr {rand()}]
         set prob 0.5
         # Save geometry at each step
-        struct tdr = [format "step_j%d_i%d.tdr" $j $i]
+        struct out=[format "step_j%d_i%d.tdr" $j $i]
         if {$rand < $prob} {
             # Apply deformation
-            # This is illustrative; actual sprocess commands would be specific
-            # deposit/etch/deform commands
+            etch silicon rate=1.0 time=0.1
         }
     }
     # Re-mesh
-    # remesh command
+    grid remesh
 }
