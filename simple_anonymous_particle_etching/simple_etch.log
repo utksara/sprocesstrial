@@ -16,22 +16,18 @@
 
 Compiled Tue Feb 13 13:27:01 PST 2024 on sce-tcad-build01
 
-      Started at: Fri May 22 14:27:50 2026 (IST)
+      Started at: Fri May 22 14:31:46 2026 (IST)
        User name: utkarsh
        Host name: localhost.localdomain
-             PID: 151673
+             PID: 151850
     Architecture: x86_64
 Operating system: Linux rel. 3.10.0-1160.114.2.el7.x86_64 ver. #1 SMP Wed Mar 20 15:54:52 UTC 2024
 
 ------------------------------------------------------------------------------
 Checking syntax of simple_etch.cmd:
-legacyUnknown parameter left
-Suggestion/s:
-     info
-
-
+legacyspace required after '=' in: 'coord={0.3'
     while executing
-"etch material=silicon type=anisotropic thickness=0.4 left=0.3 right=0.7"
+"etch material=silicon type=anisotropic thickness=0.4 coord={0.3 0.7}"
     (file "simple_etch.cmd" line 13)
 
 Failure during syntax check, aborting.
