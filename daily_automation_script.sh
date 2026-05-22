@@ -7,7 +7,7 @@ timeout 120s sprocess simple_etch.cmd
 cd ..
 
 # Git automation
-date_time=$(date +"%Y%m%d_%H%M%S")
-git add -A
-git commit -m "sentaurus_run_${date_time}"
-git push
+# date_time=$(date +"%Y%m%d_%H%M%S")
+# git add -A
+# git commit -m "sentaurus_run_${date_time}"
+# git push
