@@ -16,10 +16,10 @@
 
 Compiled Tue Feb 13 13:27:01 PST 2024 on sce-tcad-build01
 
-      Started at: Fri May 22 14:39:33 2026 (IST)
+      Started at: Fri May 22 14:44:06 2026 (IST)
        User name: utkarsh
        Host name: localhost.localdomain
-             PID: 151996
+             PID: 152167
     Architecture: x86_64
 Operating system: Linux rel. 3.10.0-1160.114.2.el7.x86_64 ver. #1 SMP Wed Mar 20 15:54:52 UTC 2024
 
@@ -30,32 +30,98 @@ Syntax check complete.
 ------------------------------------------------------------------------------
 
 Starting Tcl interpreter with inputfile: simple_etch.cmd
-            sprocess: Checked out 1 license(s) at Fri May 22 14:39:36 2026
+            sprocess: Checked out 1 license(s) at Fri May 22 14:44:10 2026
 
 Loading models file: /home/synopsys/installed_file/sentaurus/V-2024.03//tcad/current/lib/sprocess/TclLib/SPROCESS.models... done.
 ------------------------------------------------------------------- line -----
-line X location= 0.00e+00<um> spacing= 0.100<um>
+line X location= 0.00e+00<um> spacing= 0.100<um> tag= "Left"
 ------------------------------------------------------------------------------
 ------------------------------------------------------------------- line -----
-line X location= 1.00<um> spacing= 0.100<um>
+line X location= 1.00<um> spacing= 0.100<um> tag= "Right"
 ------------------------------------------------------------------------------
 ------------------------------------------------------------------- line -----
-line Y location= 0.00e+00<um> spacing= 0.100<um>
+line Y location= 0.00e+00<um> spacing= 0.100<um> tag= "Top"
 ------------------------------------------------------------------------------
 ------------------------------------------------------------------- line -----
-line Y location= 1.00<um> spacing= 0.100<um>
+line Y location= 1.00<um> spacing= 0.100<um> tag= "Bottom"
+------------------------------------------------------------------------------
+----------------------------------------------------------------- region -----
+region xlo= "Left" xhi= "Right" ylo= "Top" yhi= "Bottom" Silicon
 ------------------------------------------------------------------------------
 ------------------------------------------------------------------- init -----
-init Silicon
+init
 ------------------------------------------------------------------------------
-          sprocess2d: Checked out 1 license(s) at Fri May 22 14:39:38 2026
+          sprocess2d: Checked out 1 license(s) at Fri May 22 14:44:12 2026
 
 Creating structure...
-[1m
-** Error **
-[0mNo regions specified 151996 !
+Recreating refinements to take into account updated simulation dimension.
+Done recreating refinements.
 
- ... aborting
+
+Points: 11
+Nodes: 11
+Edges: 10
+Faces: 0
+Volumes: 0
+
+------------------------------------------------------------------- mask -----
+mask name= "trench_window" segments= {0.300<um> 0.700<um>}
+------------------------------------------------------------------------------
+------------------------------------------------------------------- etch -----
+etch mask= "trench_window" type= "anisotropic" thickness= 0.400<um> material= {silicon}
+------------------------------------------------------------------------------
+Increasing dimension 1 -> 2
+Creating structure... 
+Points: 132
+Nodes: 154
+Edges: 371
+Faces: 220
+Volumes: 0
+
+Copying data...done
+
+Recreating refinements to take into account updated simulation dimension.
+Done recreating refinements.
+
+MGoals time: 6.4580e-03
+
+Updating sprocess mesh before Etch/Depo relax.
+Generating SnMesh mesh... 
+SnMesh time: 0.041251
+
+========================  tri-grid quality (Gas excluded)  =======================
+    0  10  20  30  40  50  60  70  80  90 100 110 120 130 140 150 160 170 180
+ %    5   5       4   3   5   5  .    5  22                                
+---------------------------------------------------------------------------------
+minAngle: 0.447611  maxAngle: 90.0004
+nVerts = 1103  nTris = 2130  nMats = 2
+max connectivity (tris per node): 8 [near (0.401563 0.301562)]
+bmin: 1 0
+bmax: -0.1 1
+min edgeLength: 0.000781244  [near (0.400391 0.3)]
+min volume: 3.05173e-07  max volume: 0.005  Total volume: 0.76
+bbox  volume: 1.1
+Are all boundaries on bbox? true
+=================================================================================
+
+Smallest region: Silicon_1  Total volume: 0.76
+Initializing sprocess...time: 6.9120e-03
+Interpolating...elapsed time: 0.0000e+00
+sprocess ILS thread count = 1
+sprocess parallel assembly thread count = 1
+Mechanics:         0s   to         1s   step    :         1s   temp: 26.9C->26.9C
+
+----------------------------------------------------------------- struct -----
+struct tdr= "simple_etch_out.tdr"
+------------------------------------------------------------------------------
+Points: 1103
+Nodes: 1249
+Edges: 3376
+Faces: 2130
+Volumes: 0
+
+Writing file simple_etch_out_fps.tdr...done
+
 ------------------------------------------------------------------------------
 License features used:
     sprocess
@@ -64,26 +130,20 @@ License features used:
 
 Elapsed Time:	00:00:05
 User Time:	00:00:05
-CPU Time:	00:00:04
+CPU Time:	00:00:05
 
 Detailed CPU time report:
 
-0.88 sec (46.4%) Other Program Parts (1 calls).
-0.57 sec (30.3%) implant command (333 calls).
-0.20 sec (10.8%) mater command (107 calls).
-0.15 sec (7.8%) reaction command (68 calls).
+0.88 sec (37.4%) Other Program Parts (1 calls).
+0.58 sec (24.3%) implant command (333 calls).
+0.26 sec (11.0%) struct command (1 calls).
+0.21 sec (9.1%) mater command (107 calls).
+0.15 sec (6.2%) reaction command (68 calls).
 
 Detailed elapsed time report:
 
-0.88 sec (45.9%) Other Program Parts (1 calls).
-0.57 sec (30.0%) implant command (333 calls).
-0.20 sec (10.6%) mater command (107 calls).
-0.15 sec (7.7%) reaction command (68 calls).
-
-Simulation failed! 1 error or warning.
-================================================
-
-ERROR 1
-=======================================================
-No regions specified
-
+0.89 sec (37.3%) Other Program Parts (1 calls).
+0.58 sec (24.2%) implant command (333 calls).
+0.26 sec (11.0%) struct command (1 calls).
+0.22 sec (9.0%) mater command (107 calls).
+0.15 sec (6.2%) reaction command (68 calls).
