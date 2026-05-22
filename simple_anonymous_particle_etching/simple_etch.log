@@ -1,0 +1,72 @@
+****************************************************************************
+***                          Sentaurus Process                           ***
+***                          Version V-2024.03                           ***
+***                      (3.8727837, x86_64, Linux)                      ***
+***                                                                      ***
+***                       Copyright (C) 1993-2002                        ***
+***          The board of regents of the University of Florida           ***
+***                       Copyright (C) 1994-2024                        ***
+***                            Synopsys, Inc.                            ***
+***                                                                      ***
+***  This software and the associated documentation are confidential     ***
+***  and proprietary to Synopsys, Inc.  Your use or disclosure of this   ***
+***  software is subject to the terms and conditions of a written        ***
+***  license agreement between you, or your company, and Synopsys, Inc.  ***
+****************************************************************************
+
+Compiled Tue Feb 13 13:27:01 PST 2024 on sce-tcad-build01
+
+      Started at: Fri May 22 11:44:02 2026 (IST)
+       User name: utkarsh
+       Host name: localhost.localdomain
+             PID: 147905
+    Architecture: x86_64
+Operating system: Linux rel. 3.10.0-1160.114.2.el7.x86_64 ver. #1 SMP Wed Mar 20 15:54:52 UTC 2024
+
+------------------------------------------------------------------------------
+Checking syntax of simple_etch.cmd:
+
+Syntax check complete.
+------------------------------------------------------------------------------
+
+Starting Tcl interpreter with inputfile: simple_etch.cmd
+            sprocess: Checked out 1 license(s) at Fri May 22 11:44:05 2026
+
+Loading models file: /home/synopsys/installed_file/sentaurus/V-2024.03//tcad/current/lib/sprocess/TclLib/SPROCESS.models... done.
+------------------------------------------------------------------- line -----
+line X location= 0.00e+00<um> spacing= 0.0100<um>
+------------------------------------------------------------------------------
+------------------------------------------------------------------- line -----
+line X location= 1.00<um> spacing= 0.0100<um>
+------------------------------------------------------------------------------
+------------------------------------------------------------------- line -----
+line Y location= 0.00e+00<um> spacing= 0.0100<um>
+------------------------------------------------------------------------------
+------------------------------------------------------------------- line -----
+line Y location= 1.00<um> spacing= 0.0100<um>
+------------------------------------------------------------------------------
+----------------------------------------------------------------- region -----
+region xlo= "0" xhi= "1.0" ylo= "0" yhi= "1.0" Silicon
+------------------------------------------------------------------------------
+------------------------------------------------------------------------------
+License features used:
+    sprocess
+------------------------------------------------------------------------------
+
+Elapsed Time:	00:00:05
+User Time:	00:00:05
+CPU Time:	00:00:04
+
+Detailed CPU time report:
+
+0.88 sec (46.4%) Other Program Parts (1 calls).
+0.58 sec (30.7%) implant command (333 calls).
+0.20 sec (10.7%) mater command (107 calls).
+0.15 sec (7.8%) reaction command (68 calls).
+
+Detailed elapsed time report:
+
+0.88 sec (46.4%) Other Program Parts (1 calls).
+0.58 sec (30.7%) implant command (333 calls).
+0.20 sec (10.7%) mater command (107 calls).
+0.15 sec (7.8%) reaction command (68 calls).
