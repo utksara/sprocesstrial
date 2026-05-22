@@ -18,6 +18,8 @@ for {set j 0} {$j < $m} {incr j} {
         # Calculate random number and gaussian probability (placeholder)
         set rand [expr {rand()}]
         set prob 0.5
+        # Save geometry at each step
+        struct tdr = [format "step_j%d_i%d.tdr" $j $i]
         if {$rand < $prob} {
             # Apply deformation
             # This is illustrative; actual sprocess commands would be specific
