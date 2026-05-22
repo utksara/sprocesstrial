@@ -16,10 +16,10 @@
 
 Compiled Tue Feb 13 13:27:01 PST 2024 on sce-tcad-build01
 
-      Started at: Fri May 22 11:51:38 2026 (IST)
+      Started at: Fri May 22 14:06:02 2026 (IST)
        User name: utkarsh
        Host name: localhost.localdomain
-             PID: 148111
+             PID: 150688
     Architecture: x86_64
 Operating system: Linux rel. 3.10.0-1160.114.2.el7.x86_64 ver. #1 SMP Wed Mar 20 15:54:52 UTC 2024
 
@@ -30,7 +30,7 @@ Syntax check complete.
 ------------------------------------------------------------------------------
 
 Starting Tcl interpreter with inputfile: simple_etch.cmd
-            sprocess: Checked out 1 license(s) at Fri May 22 11:51:41 2026
+            sprocess: Checked out 1 license(s) at Fri May 22 14:06:05 2026
 
 Loading models file: /home/synopsys/installed_file/sentaurus/V-2024.03//tcad/current/lib/sprocess/TclLib/SPROCESS.models... done.
 ------------------------------------------------------------------- line -----
@@ -54,7 +54,7 @@ struct tdr= "step_j0_i0.tdr"
 Updating boundary to match mesh... done updating boundary.
 [1m
 ** Error **
-[0mDimension of FieldServer incorrect when saving 148111 !
+[0mDimension of FieldServer incorrect when saving 150688 !
 
  ... aborting
 ------------------------------------------------------------------------------
@@ -68,17 +68,17 @@ CPU Time:	00:00:04
 
 Detailed CPU time report:
 
-0.89 sec (46.8%) Other Program Parts (1 calls).
-0.57 sec (30.2%) implant command (333 calls).
-0.21 sec (10.8%) mater command (107 calls).
+0.88 sec (46.6%) Other Program Parts (1 calls).
+0.57 sec (30.4%) implant command (333 calls).
+0.20 sec (10.8%) mater command (107 calls).
 0.15 sec (7.8%) reaction command (68 calls).
 
 Detailed elapsed time report:
 
-0.89 sec (45.2%) Other Program Parts (1 calls).
-0.57 sec (29.1%) implant command (333 calls).
-0.21 sec (10.4%) mater command (107 calls).
-0.15 sec (7.5%) reaction command (68 calls).
+0.88 sec (46.6%) Other Program Parts (1 calls).
+0.58 sec (30.4%) implant command (333 calls).
+0.21 sec (10.8%) mater command (107 calls).
+0.15 sec (7.8%) reaction command (68 calls).
 
 Simulation failed! 1 error or warning.
 ================================================
