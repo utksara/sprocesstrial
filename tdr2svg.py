@@ -70,7 +70,8 @@ def create_svg_from_points(points, svg_path):
 # --- Execution ---
 if __name__ == "__main__":
     # Replace these paths with your real files
-    input_tdr = "simple_anonymous_particle_etching/simple_etch_out_fps.tdr"
+    # input_tdr = "simple_anonymous_particle_etching/simple_etch_out_fps.tdr"
+    input_tdr = "simple_anonymous_particle_etching/advanced_etch_output_fps.tdr"
     output_svg = "output.svg"
     
     # Read, parse, and convert
