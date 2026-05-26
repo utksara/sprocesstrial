@@ -15,9 +15,9 @@ line y location=2.0 spacing=0.05
 line z location=0.0 spacing=0.05
 line z location=1.0 spacing=0.05
 
-# 3. FIXED: Define the explicit 3D region box boundaries during initialization
-# This tells the engine exactly where the Silicon region exists in 3D space
-init silicon min = {0.01 0.01 0.01} max = {1.0 2.0 1.0}
+# 3. FIXED: Proper 3D initialization syntax
+# In 3D, you must use 'material=' to define the bulk region content
+init material=silicon
 
 # 4. Deposit a 0.2-micron thick Mask Layer (Oxide) on top
 deposit material=oxide type=isotropic thickness=0.2
