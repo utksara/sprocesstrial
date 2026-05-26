@@ -17,7 +17,7 @@ line z location=1.0 spacing=0.05
 
 # 3. FIXED: Define the explicit 3D region box boundaries during initialization
 # This tells the engine exactly where the Silicon region exists in 3D space
-init silicon min= {0.0 0.0 0.0} max= {1.0 2.0 1.0}
+init silicon min = {0.01 0.01 0.01} max = {1.0 2.0 1.0}
 
 # 4. Deposit a 0.2-micron thick Mask Layer (Oxide) on top
 deposit material=oxide type=isotropic thickness=0.2
@@ -35,7 +35,7 @@ etch material=oxide type=anisotropic thickness=0.25
 strip photo
 
 # 9. Run the DRIE Silicon Etch using your corrected vector syntax
-etch material=silicon type=directional direction = {0.1 1 0.1} rate=0.4 time=1.0
+etch material=silicon type=directional direction = {0.01 1 0.01} rate=0.4 time=1.0
 
 # 10. Adaptively smooth and re-mesh the new 3D layout boundary
 grid remesh
