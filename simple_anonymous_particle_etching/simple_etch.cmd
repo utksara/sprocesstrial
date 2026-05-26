@@ -1,38 +1,41 @@
 # =====================================================================
-# Sentaurus Process (sprocess) - True 3D Multi-Layer Solid Domain
+# Sentaurus Process - Pure 3D Geometric Etch Benchmark
 # =====================================================================
 
-# CRITICAL FIX: Force Sentaurus into full 3D structural mesh mode.
-# Without this, it only calculates 1D/2D data curves.
+# 1. Initialize the 3D Math Environment (Singular 'dimension')
 math dimension=3
 
-# 1. DEFINE THE 3D SPATIAL GRID BOUNDARIES (Finer spacing for 3D elements)
-line x location = 0.00 spacing = 0.05 tag = Left
-line x location = 1.00 spacing = 0.05 tag = Right
+# 2. Define a clean 3D grid spacing box
+# (1.0 micron wide [X], 2.0 microns deep [Y], 1.0 micron long [Z])
+line x location=0.0 spacing=0.05
+line x location=1.0 spacing=0.05
 
-line z location = 0.00 spacing = 0.05 tag = Front
-line z location = 1.00 spacing = 0.05 tag = Back
+line y location=0.0 spacing=0.05
+line y location=2.0 spacing=0.05
 
-line y location = 0.00 spacing = 0.02 tag = SubTop
-line y location = 2.00 spacing = 0.20 tag = SubBottom
+line z location=0.0 spacing=0.05
+line z location=1.0 spacing=0.05
 
-# 2. BIND THE CORE 3D GEOMETRIC DOMAIN TO SILICON
-region Silicon xlo = Left xhi = Right ylo = SubTop yhi = SubBottom zlo = Front zhi = Back
+# 3. Initialize a solid Silicon substrate block using the 3D grid
+init silicon
 
-# 3. INITIALIZE THE BASE WAFER SUBSTRATE
-init concentration = 1.0e15 field = Boron
+# 4. Deposit a 0.2-micron thick Mask Layer on top
+deposit material=oxide type=isotropic thickness=0.2
 
-# 4. DEPOSIT THE INSULATOR LAYER (SILICON OXIDE)
-deposit material = {Oxide} type = isotropic thickness = 0.20
+# 5. Etch a 3D contact/trench window into the Mask
+# Removes a window bound inside the center coordinates
+etch material=oxide type=anisotropic thickness=0.25 \
+     left=0.3 right=0.7 front=0.3 back=0.7
 
-# 5. DEPOSIT THE SACRIFICIAL LAYER (PHOTORESIST)
-deposit material = {Photoresist} type = isotropic thickness = 0.40
+# 6. Run a directional geometric etch into the 3D Silicon substrate
+# This etches 0.4 microns straight down along the Y-axis (direction {X Y Z})
+etch material=silicon type=directional direction={0 1 0} rate=0.4 time=1.0
 
-# 6. FORCE GLOBAL 3D MESH GENERATION
+# 7. Adaptively smooth and re-mesh the new 3D layout boundary
 grid remesh
 
-# 7. EXPORT THE INITIALIZED 3D DATA STRUCTURE
-struct tdr = initial_3d_domain.tdr
+# 8. Save the final 3D structure mesh to a TDR file
+struct tdr=simple_etch_3d_out.tdr
 
-puts "True 3D multi-material structure constructed successfully."
+puts "3D Benchmark simulation finished successfully!"
 exit
