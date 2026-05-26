@@ -40,7 +40,7 @@ strip photo
 
 # 9. RUN THE DIRECTIONAL DRIE SILICON TRENCH ETCH
 # This etches 0.4 microns straight down along the Y-axis inside the open hole
-etch material=silicon type=directional direction={0 1 0} rate=0.4 time=1.0
+etch material=silicon type=directional direction ={0 1 0} rate=0.4 time=1.0
 
 # 10. Adaptively smooth and re-mesh the new 3D layout boundary
 grid remesh
