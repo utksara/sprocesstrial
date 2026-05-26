@@ -34,7 +34,7 @@ etch material = {Oxide} type = anisotropic thickness = 0.30 mask = Mask_Opening
 grid remesh
 
 # 5. MULTI-STEP ADVANCED GEOMETRIC SEMICONDUCTOR ETCH
-# FIXED: Changed direction vector to explicit floating numbers {0.0 1.0} to satisfy the parser
+# Using your verified directional vector fix
 etch material = {Silicon} type = directional direction = {0.01 1.0} rate = 0.6 time = 1.0 mask = Mask_Opening
 grid remesh
 
@@ -43,7 +43,8 @@ etch material = {Silicon} type = isotropic thickness = 0.04 mask = Mask_Opening
 grid remesh
 
 # 6. MASK STRIPPING & POST-PROCESSING CLEANUP
-etch material = {Oxide} type = all
+# FIXED: Stripped the invalid 'type = all' and replaced with the correct native flag
+etch material = {Oxide} all
 grid remesh
 
 # 7. HIGH-FIDELITY SIMULATION DATA EXPORT
