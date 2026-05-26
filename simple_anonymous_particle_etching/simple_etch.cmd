@@ -1,23 +1,75 @@
-# 1. Define a basic 2D grid layout with boundary tags
-line x location = 0.0 spacing = 0.1 tag = Left
-line x location = 1.0 spacing = 0.1 tag = Right
+# =====================================================================
+# Sentaurus Process (sprocess) - Advanced Topography & Etching Framework
+# =====================================================================
 
-line y location = 0.0 spacing = 0.1 tag = Top
-line y location = 1.0 spacing = 0.1 tag = Bottom
+# ---------------------------------------------------------------------
+# 1. PARAMETRIC INITIAL GRID SPECIFICATION
+# ---------------------------------------------------------------------
+# Base coordinate grid lines
+line x location = 0.00 spacing = 0.05 tag = LeftEdge
+line x location = 1.00 spacing = 0.05 tag = RightEdge
 
-# 2. Explicitly bind the grid coordinates to a named region
-region Silicon xlo = Left xhi = Right ylo = Top yhi = Bottom
+line y location = 0.00 spacing = 0.02 tag = SubstrateTop
+line y location = 3.00 spacing = 0.50 tag = SubstrateBottom
 
-# 3. Initialize the simulation domain
-init
+# Explicitly assign geometric domain to a designated material domain region
+region Silicon xlo = LeftEdge xhi = RightEdge ylo = SubstrateTop yhi = SubstrateBottom
 
-# 4. Define a clear masking window (Trench from X=0.3 to X=0.7)
-mask name = trench_window segments = { 0.3 0.7 }
+# ---------------------------------------------------------------------
+# 2. DEVICE SUBSTRATE INITIALIZATION & BASE DOPING
+# ---------------------------------------------------------------------
+# Define initial crystalline characteristics and active carrier concentration 
+init orientation = 100 concentration = 1.0e15 field = Boron
 
-# 5. Perform the geometric etch using the mask
-etch material = silicon type = anisotropic thickness = 0.4 mask = trench_window
+# ---------------------------------------------------------------------
+# 3. ADVANCED ADAPTIVE REFINEBOX SYSTEM (CRITICAL FOR DRIE FRONT)
+# ---------------------------------------------------------------------
+# Dynamically adjusts elements near the interface to protect against mesh inversion
+refinebox name = Etch_Refinement \
+    min = { 0.0 0.0 } max = { 1.0 1.5 } \
+    xrefine = { 0.01 } yrefine = { 0.01 } \
+    materials = { Silicon }
 
-# 6. Save the resulting structure directly to a TDR file
-struct tdr = simple_etch_out.tdr
+# Activate the local grid refinement boundaries 
+grid remesh
 
+# ---------------------------------------------------------------------
+# 4. HARD MASK DEPOSITION & PHOTOLITHOGRAPHY EMULATION
+# ---------------------------------------------------------------------
+# Deposit a solid sacrificial insulator layer (Oxide Mask)
+deposit material = {Oxide} type = isotropic thickness = 0.25
+
+# Define a photolithographic window opening segment (X bounds from 0.35 to 0.65)
+mask name = Mask_Opening segments = { 0.35 0.65 }
+
+# Cut an accurate trench profile opening directly out of the oxide layer 
+etch material = {Oxide} type = anisotropic thickness = 0.30 mask = Mask_Opening
+
+# ---------------------------------------------------------------------
+# 5. MULTI-STEP ADVANCED GEOMETRIC SEMICONDUCTOR ETCH
+# ---------------------------------------------------------------------
+# Step A: Highly directional anisotropic drive down into the exposed Silicon
+etch material = {Silicon} type = directional direction = {0 1} rate = 0.6 time = 1.0 mask = Mask_Opening
+
+# Step B: Slight isotropic undercut expansion step to replicate real-world plasma profiles
+etch material = {Silicon} type = isotropic thickness = 0.04 mask = Mask_Opening
+
+# Re-evaluate the entire grid structure to smooth the newly deformed coordinates
+grid remesh
+
+# ---------------------------------------------------------------------
+# 6. MASK STRIPPING & POST-PROCESSING CLEANUP
+# ---------------------------------------------------------------------
+# Completely remove the remaining sacrificial oxide layer
+etch material = {Oxide} type = all
+
+# Execute a final global smoothing pass 
+grid remesh
+
+# ---------------------------------------------------------------------
+# 7. HIGH-FIDELITY SIMULATION DATA EXPORT
+# ---------------------------------------------------------------------
+struct tdr = advanced_etch_output.tdr
+
+puts "Advanced process simulation cycle finished successfully."
 exit
