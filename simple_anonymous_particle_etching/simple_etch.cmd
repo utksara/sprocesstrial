@@ -1,5 +1,5 @@
 # =====================================================================
-# Sentaurus Process - Fully Validated 3D Geometric Etch Benchmark
+# Sentaurus Process - Fully Compliant 3D Geometric Etch Benchmark
 # =====================================================================
 
 # 1. Initialize the 3D Math Environment
@@ -21,8 +21,10 @@ init silicon
 # 4. Deposit a 0.2-micron thick Mask Layer on top
 deposit material=oxide type=isotropic thickness=0.2
 
-# 5. FIXED: Added required spaces around the '=' assignment signs
-etch material=oxide type=box p1 = {0.3 -0.1 0.3} p2 = {0.7 0.25 0.7}
+# 5. FIXED: Using 'coord' and 'to' to define the 3D clipping bounding box
+# coord defines the starting {X Y Z} point, to defines the ending {X Y Z} point
+etch material=oxide type=anisotropic thickness=0.25 \
+     coord= {0.3 -0.1 0.3} to= {0.7 0.25 0.7}
 
 # 6. Run a directional geometric etch into the 3D Silicon substrate
 etch material=silicon type=directional direction={0 1 0} rate=0.4 time=1.0
