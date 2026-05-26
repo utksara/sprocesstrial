@@ -1,5 +1,5 @@
 # =====================================================================
-# Sentaurus Process - Pure 3D Fixed Region Syntax
+# Sentaurus Process - Pure 3D Fixed Region Syntax with Quotes
 # =====================================================================
 
 # 1. Initialize the 3D Math Environment
@@ -15,9 +15,8 @@ line y location=2.0 spacing=0.05 tag=Bottom
 line z location=0.0 spacing=0.05 tag=Front
 line z location=1.0 spacing=0.05 tag=Back
 
-# 3. FIXED: Define the 3D volume using explicit regions
-# This bypasses all parameter bugs inside the 'init' engine entirely.
-region material=silicon xlo=Left xhi=Right ylo=Top yhi=Bottom zlo=Front zhi=Back
+# 3. FIXED: Added double quotes around the material name "silicon"
+region material="silicon" xlo=Left xhi=Right ylo=Top yhi=Bottom zlo=Front zhi=Back
 
 # 4. Initialize the domain (Blank 'init' is completely legal here)
 init
