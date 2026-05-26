@@ -4,7 +4,7 @@
 
 # CRITICAL FIX: Force Sentaurus into full 3D structural mesh mode.
 # Without this, it only calculates 1D/2D data curves.
-math dimensions = 3
+math dimension=3
 
 # 1. DEFINE THE 3D SPATIAL GRID BOUNDARIES (Finer spacing for 3D elements)
 line x location = 0.00 spacing = 0.05 tag = Left
