@@ -16,10 +16,10 @@
 
 Compiled Tue Feb 13 13:27:01 PST 2024 on sce-tcad-build01
 
-      Started at: Fri May 22 14:44:06 2026 (IST)
+      Started at: Tue May 26 14:01:04 2026 (IST)
        User name: utkarsh
        Host name: localhost.localdomain
-             PID: 152167
+             PID: 161918
     Architecture: x86_64
 Operating system: Linux rel. 3.10.0-1160.114.2.el7.x86_64 ver. #1 SMP Wed Mar 20 15:54:52 UTC 2024
 
@@ -30,52 +30,133 @@ Syntax check complete.
 ------------------------------------------------------------------------------
 
 Starting Tcl interpreter with inputfile: simple_etch.cmd
-            sprocess: Checked out 1 license(s) at Fri May 22 14:44:10 2026
+            sprocess: Checked out 1 license(s) at Tue May 26 14:01:07 2026
 
 Loading models file: /home/synopsys/installed_file/sentaurus/V-2024.03//tcad/current/lib/sprocess/TclLib/SPROCESS.models... done.
 ------------------------------------------------------------------- line -----
-line X location= 0.00e+00<um> spacing= 0.100<um> tag= "Left"
+line X location= 0.00e+00<um> spacing= 0.0500<um> tag= "LeftEdge"
 ------------------------------------------------------------------------------
 ------------------------------------------------------------------- line -----
-line X location= 1.00<um> spacing= 0.100<um> tag= "Right"
+line X location= 1.00<um> spacing= 0.0500<um> tag= "RightEdge"
 ------------------------------------------------------------------------------
 ------------------------------------------------------------------- line -----
-line Y location= 0.00e+00<um> spacing= 0.100<um> tag= "Top"
+line Y location= 0.00e+00<um> spacing= 0.0500<um> tag= "SubstrateTop"
 ------------------------------------------------------------------------------
 ------------------------------------------------------------------- line -----
-line Y location= 1.00<um> spacing= 0.100<um> tag= "Bottom"
+line Y location= 3.00<um> spacing= 0.500<um> tag= "SubstrateBottom"
 ------------------------------------------------------------------------------
 ----------------------------------------------------------------- region -----
-region xlo= "Left" xhi= "Right" ylo= "Top" yhi= "Bottom" Silicon
+region xlo= "LeftEdge" xhi= "RightEdge" ylo= "SubstrateTop" yhi= "SubstrateBottom" Silicon
 ------------------------------------------------------------------------------
 ------------------------------------------------------------------- init -----
-init
+init concentration= 1.00e+15<cm-3> field= "Boron"
 ------------------------------------------------------------------------------
-          sprocess2d: Checked out 1 license(s) at Fri May 22 14:44:12 2026
+          sprocess2d: Checked out 1 license(s) at Tue May 26 14:01:09 2026
 
 Creating structure...
 Recreating refinements to take into account updated simulation dimension.
 Done recreating refinements.
 
 
-Points: 11
-Nodes: 11
-Edges: 10
+Points: 21
+Nodes: 21
+Edges: 20
 Faces: 0
 Volumes: 0
 
+-------------------------------------------------------------- refinebox -----
+refinebox materials= {Silicon Oxide} min= {0.00e+00<um> 0.00e+00<um>} max= {1.00<um> 3.00<um>} xrefine= {0.0200<um>} yrefine= {0.0200<um>} name= "Etch_Refinement"
+------------------------------------------------------------------------------
+------------------------------------------------------------------- grid -----
+grid remesh
+------------------------------------------------------------------------------
+Generating SnMesh mesh... 
+SnMesh time: 3.1900e-03
+
+========================  tri-grid quality (Gas excluded)  =======================
+    0  10  20  30  40  50  60  70  80  90 100 110 120 130 140 150 160 170 180
+ %   33                                  67                                
+---------------------------------------------------------------------------------
+minAngle: 0.458356  maxAngle: 90
+nVerts = 162  nTris = 160  nMats = 1
+max connectivity (tris per node): 3 [near (0.0125 0)]
+bmin: 1 0
+bmax: 0 0.0001
+min edgeLength: 0.0001  [near (0.0125 5e-05)]
+min volume: 6.25e-07  max volume: 6.25e-07  Total volume: 0.0001
+bbox  volume: 0.0001
+Are all boundaries on bbox? true
+=================================================================================
+
+Smallest region: Silicon_1  Total volume: 0.0001
+Initializing sprocess...time: 4.1700e-04
+Interpolating...elapsed time: 0.0000e+00
+---------------------------------------------------------------- deposit -----
+deposit type= "isotropic" thickness= 0.250<um> material= {Oxide}
+------------------------------------------------------------------------------
+MGoals time: 0.0534899
+
+Updating sprocess mesh before Etch/Depo relax.
+Generating SnMesh mesh... 
+SnMesh time: 2.9540e-03
+
+========================  tri-grid quality (Gas excluded)  =======================
+    0  10  20  30  40  50  60  70  80  90 100 110 120 130 140 150 160 170 180
+ %   28   2  .                   .    2  58                                
+---------------------------------------------------------------------------------
+minAngle: 0.176788  maxAngle: 90
+nVerts = 232  nTris = 230  nMats = 5
+max connectivity (tris per node): 3 [near (-0.306272 0)]
+bmin: 1 0
+bmax: -0.350025 0.000135003
+min edgeLength: 0.000135003  [near (-0.24953 6.75013e-05)]
+min volume: 3.16376e-08  max volume: 2.95339e-06  Total volume: 0.000168753
+bbox  volume: 0.000182257
+Are all boundaries on bbox? true
+=================================================================================
+
+Smallest region: Oxide_1  Total volume: 3.37504e-05
+Initializing sprocess...time: 7.9650e-03
+Interpolating...elapsed time: 0.01
+sprocess Pardiso thread count = 1
+sprocess parallel assembly thread count = 1
+Mechanics:         0s   to         1s   step    :         1s   temp: 26.9C->26.9C
+------------------------------------------------------------------- grid -----
+grid remesh
+------------------------------------------------------------------------------
+Generating SnMesh mesh... 
+SnMesh time: 2.7110e-03
+
+========================  tri-grid quality (Gas excluded)  =======================
+    0  10  20  30  40  50  60  70  80  90 100 110 120 130 140 150 160 170 180
+ %   28   2  .                   .    2  58                                
+---------------------------------------------------------------------------------
+minAngle: 0.176788  maxAngle: 90
+nVerts = 232  nTris = 230  nMats = 5
+max connectivity (tris per node): 3 [near (-0.306272 0)]
+bmin: 1 0
+bmax: -0.350025 0.000135003
+min edgeLength: 0.000135003  [near (-0.24953 6.75013e-05)]
+min volume: 3.16376e-08  max volume: 2.95339e-06  Total volume: 0.000168753
+bbox  volume: 0.000182257
+Are all boundaries on bbox? true
+=================================================================================
+
+Smallest region: Oxide_1  Total volume: 3.37504e-05
+Initializing sprocess...time: 7.5590e-03
+Interpolating...elapsed time: 0.0000e+00
 ------------------------------------------------------------------- mask -----
-mask name= "trench_window" segments= {0.300<um> 0.700<um>}
+mask name= "Mask_Opening" segments= {0.350<um> 0.650<um>}
 ------------------------------------------------------------------------------
 ------------------------------------------------------------------- etch -----
-etch mask= "trench_window" type= "anisotropic" thickness= 0.400<um> material= {silicon}
+etch mask= "Mask_Opening" type= "anisotropic" thickness= 0.300<um> material= {Oxide}
 ------------------------------------------------------------------------------
 Increasing dimension 1 -> 2
 Creating structure... 
-Points: 132
-Nodes: 154
-Edges: 371
-Faces: 220
+Points: 1856
+Nodes: 1920
+Edges: 5365
+Faces: 3450
 Volumes: 0
 
 Copying data...done
@@ -83,44 +164,202 @@ Copying data...done
 Recreating refinements to take into account updated simulation dimension.
 Done recreating refinements.
 
-MGoals time: 6.4580e-03
+MGoals time: 0.0524261
 
 Updating sprocess mesh before Etch/Depo relax.
 Generating SnMesh mesh... 
-SnMesh time: 0.041251
+SnMesh time: 0.771945
 
 ========================  tri-grid quality (Gas excluded)  =======================
     0  10  20  30  40  50  60  70  80  90 100 110 120 130 140 150 160 170 180
- %    5   5       4   3   5   5  .    5  22                                
+ %    1   1  .    3  25  25   3  .    1  31  .   .   .                     
 ---------------------------------------------------------------------------------
-minAngle: 0.447611  maxAngle: 90.0004
-nVerts = 1103  nTris = 2130  nMats = 2
-max connectivity (tris per node): 8 [near (0.401563 0.301562)]
+minAngle: 0.218969  maxAngle: 115.08
+nVerts = 20476  nTris = 40523  nMats = 3
+max connectivity (tris per node): 8 [near (-0.250213 0.349557)]
 bmin: 1 0
-bmax: -0.1 1
-min edgeLength: 0.000781244  [near (0.400391 0.3)]
-min volume: 3.05173e-07  max volume: 0.005  Total volume: 0.76
-bbox  volume: 1.1
+bmax: -0.350025 3
+min edgeLength: 0.000167214  [near (-0.248846 0.649916)]
+min volume: 5.71572e-08  max volume: 0.00145883  Total volume: 3.075
+bbox  volume: 4.05008
 Are all boundaries on bbox? true
 =================================================================================
 
-Smallest region: Silicon_1  Total volume: 0.76
-Initializing sprocess...time: 6.9120e-03
-Interpolating...elapsed time: 0.0000e+00
+Smallest region: Oxide_1  Total volume: 0.0749995
+Initializing sprocess...time: 0.150296
+Interpolating...elapsed time: 0.18
 sprocess ILS thread count = 1
-sprocess parallel assembly thread count = 1
 Mechanics:         0s   to         1s   step    :         1s   temp: 26.9C->26.9C
 
------------------------------------------------------------------ struct -----
-struct tdr= "simple_etch_out.tdr"
+------------------------------------------------------------------- grid -----
+grid remesh
 ------------------------------------------------------------------------------
-Points: 1103
-Nodes: 1249
-Edges: 3376
-Faces: 2130
+Generating SnMesh mesh... 
+SnMesh time: 0.755814
+
+========================  tri-grid quality (Gas excluded)  =======================
+    0  10  20  30  40  50  60  70  80  90 100 110 120 130 140 150 160 170 180
+ %    1   1  .    3  25  25   3  .    1  31  .   .   .                     
+---------------------------------------------------------------------------------
+minAngle: 0.218969  maxAngle: 115.08
+nVerts = 20476  nTris = 40523  nMats = 3
+max connectivity (tris per node): 8 [near (-0.0875063 0.851188)]
+bmin: 1 0
+bmax: -0.350025 3
+min edgeLength: 0.000167214  [near (-0.248846 0.649916)]
+min volume: 5.71572e-08  max volume: 0.00145883  Total volume: 3.075
+bbox  volume: 4.05008
+Are all boundaries on bbox? true
+=================================================================================
+
+Smallest region: Oxide_1  Total volume: 0.0749995
+Initializing sprocess...time: 0.123706
+Interpolating...elapsed time: 0.2
+------------------------------------------------------------------- etch -----
+etch time= 1.00<min> mask= "Mask_Opening" rate= {0.600<um/min>} direction= {0.0100 1.00} type= "directional" material= {Silicon}
+------------------------------------------------------------------------------
+MGoals time: 1.42301
+
+Updating sprocess mesh before Etch/Depo relax.
+Generating SnMesh mesh... 
+SnMesh time: 0.813493
+
+========================  tri-grid quality (Gas excluded)  =======================
+    0  10  20  30  40  50  60  70  80  90 100 110 120 130 140 150 160 170 180
+ %    1   1   1   3  23  23   3   1   1  31  .   .   .       .             
+---------------------------------------------------------------------------------
+minAngle: 0.101553  maxAngle: 143.42
+nVerts = 22143  nTris = 43853  nMats = 3
+max connectivity (tris per node): 8 [near (0.00546875 1.19688)]
+bmin: 1 0
+bmax: -0.350025 3
+min edgeLength: 1.20994e-05  [near (0.0039002 1.03942)]
+min volume: 1.9965e-09  max volume: 0.00145883  Total volume: 3.0588
+bbox  volume: 4.05008
+Are all boundaries on bbox? true
+=================================================================================
+
+Smallest region: Oxide_1  Total volume: 0.0749995
+Initializing sprocess...time: 0.136022
+Interpolating...elapsed time: 0.22
+Mechanics:         0s   to         1s   step    :         1s   temp: 26.9C->26.9C
+
+------------------------------------------------------------------- grid -----
+grid remesh
+------------------------------------------------------------------------------
+Generating SnMesh mesh... 
+SnMesh time: 0.850377
+
+========================  tri-grid quality (Gas excluded)  =======================
+    0  10  20  30  40  50  60  70  80  90 100 110 120 130 140 150 160 170 180
+ %    1   1   1   3  23  23   3   1   1  31  .   .   .       .             
+---------------------------------------------------------------------------------
+minAngle: 0.101553  maxAngle: 143.42
+nVerts = 22159  nTris = 43885  nMats = 3
+max connectivity (tris per node): 8 [near (0.00546875 1.19688)]
+bmin: 1 0
+bmax: -0.350025 3
+min edgeLength: 1.20994e-05  [near (0.0039002 1.03942)]
+min volume: 1.9965e-09  max volume: 0.00145883  Total volume: 3.0588
+bbox  volume: 4.05008
+Are all boundaries on bbox? true
+=================================================================================
+
+Smallest region: Oxide_1  Total volume: 0.0749995
+Initializing sprocess...time: 0.141756
+Interpolating...elapsed time: 0.22
+------------------------------------------------------------------- etch -----
+etch mask= "Mask_Opening" type= "isotropic" thickness= 0.0400<um> material= {Silicon}
+------------------------------------------------------------------------------
+MGoals time: 1.3149
+
+Updating sprocess mesh before Etch/Depo relax.
+Generating SnMesh mesh... 
+SnMesh time: 0.834141
+
+========================  tri-grid quality (Gas excluded)  =======================
+    0  10  20  30  40  50  60  70  80  90 100 110 120 130 140 150 160 170 180
+ %    1   1   1   3  22  22   3   1   1  29  .   .   .   .   .   .   .     
+---------------------------------------------------------------------------------
+minAngle: 0.212737  maxAngle: 161.434
+nVerts = 21975  nTris = 43524  nMats = 2
+max connectivity (tris per node): 11 [near (0.0140625 0.386628)]
+bmin: 1 0
+bmax: -0.350025 3
+min edgeLength: 1.14955e-05  [near (0.014068 0.386189)]
+min volume: 1.56322e-10  max volume: 0.000122821  Total volume: 2.87238
+bbox  volume: 4.05008
+Are all boundaries on bbox? true
+=================================================================================
+
+Smallest region: Silicon_1  Total volume: 2.87238
+Initializing sprocess...time: 0.129663
+Interpolating...elapsed time: 0.21
+Mechanics:         0s   to         1s   step    :         1s   temp: 26.9C->26.9C
+
+Region Oxide_1 with material of Oxide was removed from the structure after etch
+------------------------------------------------------------------- grid -----
+grid remesh
+------------------------------------------------------------------------------
+Generating SnMesh mesh... 
+SnMesh time: 0.809241
+
+========================  tri-grid quality (Gas excluded)  =======================
+    0  10  20  30  40  50  60  70  80  90 100 110 120 130 140 150 160 170 180
+ %    1   1   1   3  23  23   3   1   1  29  .   .   .   .   .   .   .     
+---------------------------------------------------------------------------------
+minAngle: 0.145108  maxAngle: 161.434
+nVerts = 21415  nTris = 42404  nMats = 2
+max connectivity (tris per node): 11 [near (0.0140625 0.386628)]
+bmin: 1 0
+bmax: -0.350025 3
+min edgeLength: 1.14955e-05  [near (0.014068 0.386189)]
+min volume: 2.24035e-10  max volume: 0.000122821  Total volume: 2.87238
+bbox  volume: 4.05008
+Are all boundaries on bbox? true
+=================================================================================
+
+Smallest region: Silicon_1  Total volume: 2.87238
+Initializing sprocess...time: 0.127757
+Interpolating...elapsed time: 0.21
+------------------------------------------------------------------- etch -----
+etch type= "isotropic" thickness= 0.500<um> material= {Oxide}
+------------------------------------------------------------------------------
+No exposed material to etch, skipping etch
+------------------------------------------------------------------- grid -----
+grid remesh
+------------------------------------------------------------------------------
+Generating SnMesh mesh... 
+SnMesh time: 0.830216
+
+========================  tri-grid quality (Gas excluded)  =======================
+    0  10  20  30  40  50  60  70  80  90 100 110 120 130 140 150 160 170 180
+ %    1   1   1   3  23  23   3   1   1  29  .   .   .   .   .   .   .     
+---------------------------------------------------------------------------------
+minAngle: 0.145108  maxAngle: 161.434
+nVerts = 21402  nTris = 42378  nMats = 2
+max connectivity (tris per node): 11 [near (0.0140625 0.386628)]
+bmin: 1 0
+bmax: -0.350025 3
+min edgeLength: 1.14955e-05  [near (0.014068 0.386189)]
+min volume: 2.24035e-10  max volume: 0.000122821  Total volume: 2.87238
+bbox  volume: 4.05008
+Are all boundaries on bbox? true
+=================================================================================
+
+Smallest region: Silicon_1  Total volume: 2.87238
+Initializing sprocess...time: 0.127067
+Interpolating...elapsed time: 0.2
+----------------------------------------------------------------- struct -----
+struct tdr= "advanced_etch_output.tdr"
+------------------------------------------------------------------------------
+Points: 21402
+Nodes: 22292
+Edges: 64667
+Faces: 42378
 Volumes: 0
 
-Writing file simple_etch_out_fps.tdr...done
+Writing file advanced_etch_output_fps.tdr...done
 
 ------------------------------------------------------------------------------
 License features used:
@@ -128,22 +367,40 @@ License features used:
     sprocess2d
 ------------------------------------------------------------------------------
 
-Elapsed Time:	00:00:05
-User Time:	00:00:05
-CPU Time:	00:00:05
+Elapsed Time:	00:00:19
+User Time:	00:00:19
+CPU Time:	00:00:18
 
 Detailed CPU time report:
 
-0.88 sec (37.4%) Other Program Parts (1 calls).
-0.58 sec (24.3%) implant command (333 calls).
-0.26 sec (11.0%) struct command (1 calls).
-0.21 sec (9.1%) mater command (107 calls).
-0.15 sec (6.2%) reaction command (68 calls).
+5.65 sec (34.2%) SnMesh meshing (10 calls).
+2.84 sec (17.2%) mgoals (4 calls).
+1.42 sec (8.6%) Bulk Interpolation (10 calls).
+1.07 sec (6.5%) grid command (6 calls).
+0.90 sec (5.5%) etch command (4 calls).
+0.87 sec (5.3%) Other Program Parts (1 calls).
+0.85 sec (5.1%) Transfer from mesher 1D/2D (10 calls).
+0.57 sec (3.4%) implant command (333 calls).
+0.48 sec (2.9%) struct command (1 calls).
+0.45 sec (2.8%) FieldServer copy (10 calls).
+0.36 sec (2.2%) Solver(Mechanics) (4 calls).
+0.23 sec (1.4%) Mechanics assembly (serial mode) (4 calls).
+0.20 sec (1.2%) mater command (107 calls).
+0.15 sec (0.9%) reaction command (68 calls).
 
 Detailed elapsed time report:
 
-0.89 sec (37.3%) Other Program Parts (1 calls).
-0.58 sec (24.2%) implant command (333 calls).
-0.26 sec (11.0%) struct command (1 calls).
-0.22 sec (9.0%) mater command (107 calls).
-0.15 sec (6.2%) reaction command (68 calls).
+5.66 sec (34.3%) SnMesh meshing (10 calls).
+2.84 sec (17.2%) mgoals (4 calls).
+1.42 sec (8.6%) Bulk Interpolation (10 calls).
+1.05 sec (6.4%) grid command (6 calls).
+0.89 sec (5.4%) etch command (4 calls).
+0.87 sec (5.3%) Other Program Parts (1 calls).
+0.85 sec (5.1%) Transfer from mesher 1D/2D (10 calls).
+0.57 sec (3.4%) implant command (333 calls).
+0.48 sec (2.9%) struct command (1 calls).
+0.46 sec (2.8%) FieldServer copy (10 calls).
+0.36 sec (2.2%) Solver(Mechanics) (4 calls).
+0.23 sec (1.4%) Mechanics assembly (serial mode) (4 calls).
+0.20 sec (1.2%) mater command (107 calls).
+0.15 sec (0.9%) reaction command (68 calls).
