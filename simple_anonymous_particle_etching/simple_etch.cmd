@@ -15,13 +15,12 @@ region Silicon xlo = LeftEdge xhi = RightEdge ylo = SubstrateTop yhi = Substrate
 # 2. DEVICE SUBSTRATE INITIALIZATION
 init concentration = 1.0e15 field = Boron
 
-# 3. ADVANCED ADAPTIVE REFINEBOX SYSTEM (MUST BE INITIALIZED FIRST)
+# 3. ADVANCED ADAPTIVE REFINEBOX SYSTEM
 refinebox name = Etch_Refinement \
     min = { 0.0 0.0 } max = { 1.0 3.0 } \
     xrefine = { 0.02 } yrefine = { 0.02 } \
     materials = { Silicon Oxide }
 
-# Activate the mesh infrastructure
 grid remesh
 
 # 4. HARD MASK DEPOSITION & PHOTOLITHOGRAPHY EMULATION
@@ -35,8 +34,12 @@ etch material = {Oxide} type = anisotropic thickness = 0.30 mask = Mask_Opening
 grid remesh
 
 # 5. MULTI-STEP ADVANCED GEOMETRIC SEMICONDUCTOR ETCH
-# The mesh is now adaptive, so this directional etch will not crash
-etch material = {Silicon} type = directional direction = {0 1} rate = 0.6 time = 1.0 mask = Mask_Opening
+# FIXED: Changed direction vector to explicit floating numbers {0.0 1.0} to satisfy the parser
+etch material = {Silicon} type = directional direction = {0.0 1.0} rate = 0.6 time = 1.0 mask = Mask_Opening
+grid remesh
+
+# Optional: Slight isotropic undercut expansion step
+etch material = {Silicon} type = isotropic thickness = 0.04 mask = Mask_Opening
 grid remesh
 
 # 6. MASK STRIPPING & POST-PROCESSING CLEANUP
