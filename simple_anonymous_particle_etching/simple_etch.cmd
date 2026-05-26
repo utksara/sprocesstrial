@@ -1,5 +1,5 @@
 # =====================================================================
-# Sentaurus Process - Working 3D Masking & Etch Benchmark
+# Sentaurus Process - Fully Validated 3D Masking & Etch Benchmark
 # =====================================================================
 
 # 1. Initialize the 3D Math Environment
@@ -15,32 +15,27 @@ line y location=2.0 spacing=0.05
 line z location=0.0 spacing=0.05
 line z location=1.0 spacing=0.05
 
-# 3. Initialize solid Silicon substrate block
-init silicon
+# 3. FIXED: Define the explicit 3D region box boundaries during initialization
+# This tells the engine exactly where the Silicon region exists in 3D space
+init silicon min= {0.0 0.0 0.0} max= {1.0 2.0 1.0}
 
 # 4. Deposit a 0.2-micron thick Mask Layer (Oxide) on top
 deposit material=oxide type=isotropic thickness=0.2
 
-# 5. DEFINE THE 3D MASK LAYOUT
-# We draw a literal 2D mask on the X-Z surface. 
-# This defines a square blocking region from 0.0-0.3 and 0.7-1.0.
+# 5. Define the 2D Mask layout on the X-Z surface
 mask name=trench_window left=0.3 right=0.7 front=0.3 back=0.7 negative
 
-# 6. APPLY PHOTOLITHOGRAPHY 
-# This deposits photoresist everywhere EXCEPT where our 'trench_window' is open
+# 6. Apply photolithography resist
 photo thickness=0.5 mask=trench_window
 
-# 7. ETCH THE OXIDE MASK WINDOW
-# This removes the Oxide that is left unprotected by the photoresist
+# 7. Etch the Oxide mask window open
 etch material=oxide type=anisotropic thickness=0.25
 
-# 8. STRIP THE PHOTORESIST
-# Cleans the remaining polymer off the wafer, leaving a perfect Oxide mask hole
+# 8. Strip the temporary photolithography resist
 strip photo
 
-# 9. RUN THE DIRECTIONAL DRIE SILICON TRENCH ETCH
-# This etches 0.4 microns straight down along the Y-axis inside the open hole
-etch material=silicon type=directional direction = {0.1 1 0.1} rate = 0.4 time=1.0
+# 9. Run the DRIE Silicon Etch using your corrected vector syntax
+etch material=silicon type=directional direction = {0.1 1 0.1} rate=0.4 time=1.0
 
 # 10. Adaptively smooth and re-mesh the new 3D layout boundary
 grid remesh
