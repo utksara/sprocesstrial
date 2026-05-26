@@ -43,8 +43,8 @@ etch material = {Silicon} type = isotropic thickness = 0.04 mask = Mask_Opening
 grid remesh
 
 # 6. MASK STRIPPING & POST-PROCESSING CLEANUP
-# FIXED: Stripped the invalid 'type = all' and replaced with the correct native flag
-etch material = {Oxide} all
+# FIXED: Replaced the 'all' parameter with an explicit over-etch to safely clear the mask
+etch material = {Oxide} type = isotropic thickness = 0.50
 grid remesh
 
 # 7. HIGH-FIDELITY SIMULATION DATA EXPORT
