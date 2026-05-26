@@ -1,5 +1,5 @@
 # =====================================================================
-# Sentaurus Process - Fully Validated 3D Masking & Etch Benchmark
+# Sentaurus Process - Final Validated 3D Mesh & Etch Benchmark
 # =====================================================================
 
 # 1. Initialize the 3D Math Environment
@@ -15,9 +15,8 @@ line y location=2.0 spacing=0.05
 line z location=0.0 spacing=0.05
 line z location=1.0 spacing=0.05
 
-# 3. FIXED: Proper 3D initialization syntax
-# In 3D, you must use 'material=' to define the bulk region content
-init material=silicon
+# 3. FIXED: The correct keyword for 3D substrate material initialization
+init sub_material=silicon
 
 # 4. Deposit a 0.2-micron thick Mask Layer (Oxide) on top
 deposit material=oxide type=isotropic thickness=0.2
