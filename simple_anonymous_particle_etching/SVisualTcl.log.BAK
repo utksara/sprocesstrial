@@ -1,0 +1,19 @@
+###########################################
+# Sentaurus Visual V-2024.03.
+# Tcl log file.
+#------------------------------------------
+# Date: May 26, 2026. 14:37:55.
+# Version: 35.3.8727837 (3.8727837)
+# Mode: Interactive (GUI).
+# Mesa: enabled.
+# Hostname: localhost.localdomain.
+# Machine: Linux, x86_64, x86_64.
+# Kernel: 3.10.0-1160.114.2.el7.x86_64.
+###########################################
+
+load_file /home/utkarsh/etching_sentaurus/sprocesstrial/simple_anonymous_particle_etching/initial_3d_domain_fps.tdr -fod
+create_plot -1d
+select_plots {Plot_1}
+#-> Plot_1
+#-> Plot_1
+#-> initial_3d_domain_fps

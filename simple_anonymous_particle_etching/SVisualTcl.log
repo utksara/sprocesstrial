@@ -1,0 +1,55 @@
+###########################################
+# Sentaurus Visual V-2024.03.
+# Tcl log file.
+#------------------------------------------
+# Date: May 26, 2026. 14:40:30.
+# Version: 35.3.8727837 (3.8727837)
+# Mode: Interactive (GUI).
+# Mesa: enabled.
+# Hostname: localhost.localdomain.
+# Machine: Linux, x86_64, x86_64.
+# Kernel: 3.10.0-1160.114.2.el7.x86_64.
+###########################################
+
+load_file /home/utkarsh/etching_sentaurus/sprocesstrial/simple_anonymous_particle_etching/initial_3d_domain_fps.tdr -fod
+create_plot -1d
+select_plots {Plot_1}
+#-> Plot_1
+#-> Plot_1
+#-> initial_3d_domain_fps
+reload_datasets
+#-> 0
+load_file /home/utkarsh/etching_sentaurus/sprocesstrial/simple_anonymous_particle_etching/simple_etch_out_fps.tdr -fod
+create_plot -dataset simple_etch_out_fps
+select_plots {Plot_simple_etch_out_fps}
+#-> Plot_simple_etch_out_fps
+#-> Plot_simple_etch_out_fps
+#-> simple_etch_out_fps
+select_plots {Plot_1}
+#-> Plot_1
+select_plots {Plot_simple_etch_out_fps}
+#-> Plot_simple_etch_out_fps
+select_plots {Plot_1}
+#-> Plot_1
+load_file /home/utkarsh/etching_sentaurus/sprocesstrial/simple_anonymous_particle_etching/initial_3d_domain_fps.tdr -fod
+#-> initial_3d_domain_fps_2
+select_plots {Plot_simple_etch_out_fps}
+#-> Plot_simple_etch_out_fps
+select_plots {Plot_1}
+#-> Plot_1
+select_plots {Plot_simple_etch_out_fps}
+#-> Plot_simple_etch_out_fps
+select_plots {Plot_1}
+#-> Plot_1
+select_plots {Plot_simple_etch_out_fps}
+#-> Plot_simple_etch_out_fps
+select_plots {Plot_1}
+#-> Plot_1
+select_plots {Plot_simple_etch_out_fps}
+#-> Plot_simple_etch_out_fps
+set_material_prop {Gas} -plot Plot_simple_etch_out_fps -geom simple_etch_out_fps -on
+#-> 0
+set_material_prop {Interface} -plot Plot_simple_etch_out_fps -geom simple_etch_out_fps -on
+#-> 0
+select_plots {Plot_1}
+#-> Plot_1
