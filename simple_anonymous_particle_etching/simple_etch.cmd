@@ -21,12 +21,10 @@ init silicon
 # 4. Deposit a 0.2-micron thick Mask Layer on top
 deposit material=oxide type=isotropic thickness=0.2
 
-# 5. FIX: Etch a 3D window into the Mask using box parameters
-# type=box uses p1={x1 y1 z1} and p2={x2 y2 z2} to define the bounding cuboid
-etch material=oxide type=box p1={0.3 -0.1 0.3} p2={0.7 0.25 0.7}
+# 5. FIXED: Added required spaces around the '=' assignment signs
+etch material=oxide type=box p1 = {0.3 -0.1 0.3} p2 = {0.7 0.25 0.7}
 
 # 6. Run a directional geometric etch into the 3D Silicon substrate
-# This etches 0.4 microns straight down along the Y-axis
 etch material=silicon type=directional direction={0 1 0} rate=0.4 time=1.0
 
 # 7. Adaptively smooth and re-mesh the new 3D boundary layout
