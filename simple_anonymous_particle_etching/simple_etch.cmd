@@ -35,7 +35,7 @@ grid remesh
 
 # 5. MULTI-STEP ADVANCED GEOMETRIC SEMICONDUCTOR ETCH
 # FIXED: Changed direction vector to explicit floating numbers {0.0 1.0} to satisfy the parser
-etch material = {Silicon} type = directional direction = {0.0 1.0} rate = 0.6 time = 1.0 mask = Mask_Opening
+etch material = {Silicon} type = directional direction = {0.01 1.0} rate = 0.6 time = 1.0 mask = Mask_Opening
 grid remesh
 
 # Optional: Slight isotropic undercut expansion step
