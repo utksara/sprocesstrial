@@ -15,8 +15,8 @@ line y location=2.0 spacing=0.05 tag=Bottom
 line z location=0.0 spacing=0.05 tag=Front
 line z location=1.0 spacing=0.05 tag=Back
 
-# 3. FIXED: Added double quotes around the material name "silicon"
-region material="silicon" xlo=Left xhi=Right ylo=Top yhi=Bottom zlo=Front zhi=Back
+
+region Silicon xlo=0.0 xhi=1.0 ylo=0.0 yhi=1.0
 
 # 4. Initialize the domain (Blank 'init' is completely legal here)
 init
