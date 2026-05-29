@@ -1,6 +1,6 @@
 # =====================================================================
-# Sentaurus Process 3D Silicon Etch Example
-# Standalone sprocess-compatible CMD file
+# Sentaurus Process - 3D Silicon Etch Example
+# Compatible with older standalone sprocess versions
 # =====================================================================
 
 # ---------------------------------------------------------------------
@@ -9,27 +9,29 @@
 math dimension=3
 
 # ---------------------------------------------------------------------
-# 2. Define Mesh
+# 2. Define Mesh Lines with Tags
 # ---------------------------------------------------------------------
-line x location=0.0 spacing=0.05
-line x location=1.0 spacing=0.05
+line x location=0.0 spacing=0.05 tag=Left
+line x location=1.0 spacing=0.05 tag=Right
 
-line y location=0.0 spacing=0.05
-line y location=2.0 spacing=0.05
+line y location=0.0 spacing=0.05 tag=Top
+line y location=2.0 spacing=0.05 tag=Bottom
 
-line z location=0.0 spacing=0.05
-line z location=1.0 spacing=0.05
+line z location=0.0 spacing=0.05 tag=Front
+line z location=1.0 spacing=0.05 tag=Back
 
 # ---------------------------------------------------------------------
 # 3. Define Silicon Region
 # ---------------------------------------------------------------------
-region Silicon xlo=Left xhi=Right ylo=Top yhi=Bottom zlo=Front zhi=Back
-
+region Silicon \
+    xlo=Left xhi=Right \
+    ylo=Top yhi=Bottom \
+    zlo=Front zhi=Back
 
 # ---------------------------------------------------------------------
-# 4. Initialize Substrate
+# 4. Initialize Structure
 # ---------------------------------------------------------------------
-init concentration=1.0e15 field=Boron wafer.orient=100
+init
 
 # ---------------------------------------------------------------------
 # 5. Deposit Oxide Hard Mask
@@ -39,7 +41,7 @@ deposit material=Oxide \
     thickness=0.2
 
 # ---------------------------------------------------------------------
-# 6. Define Mask Window
+# 6. Define Lithography Mask
 # ---------------------------------------------------------------------
 mask name=trench_window \
     left=0.3 right=0.7 \
@@ -51,7 +53,7 @@ mask name=trench_window \
 photo mask=trench_window thickness=0.5
 
 # ---------------------------------------------------------------------
-# 8. Etch Oxide Opening
+# 8. Open Oxide Window
 # ---------------------------------------------------------------------
 etch material=Oxide \
     type=anisotropic \
@@ -63,7 +65,7 @@ etch material=Oxide \
 strip PhotoResist
 
 # ---------------------------------------------------------------------
-# 10. Silicon Trench Etch
+# 10. Silicon Etch
 # ---------------------------------------------------------------------
 etch material=Silicon \
     type=anisotropic \
@@ -78,5 +80,4 @@ grid remesh
 # ---------------------------------------------------------------------
 # 12. Save Final Structure
 # ---------------------------------------------------------------------
-struct tdr="simple_etch_3d_out.tdr"
-
+struct tdr=simple_etch_3d_out
