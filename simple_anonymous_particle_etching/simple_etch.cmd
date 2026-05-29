@@ -23,10 +23,8 @@ line z location=1.0 spacing=0.05
 # ---------------------------------------------------------------------
 # 3. Define Silicon Region
 # ---------------------------------------------------------------------
-region Silicon \
-    xlo=0.0 xhi=1.0 \
-    ylo=0.0 yhi=2.0 \
-    zlo=0.0 zhi=1.0
+region Silicon xlo=Left xhi=Right ylo=Top yhi=Bottom zlo=Front zhi=Back
+
 
 # ---------------------------------------------------------------------
 # 4. Initialize Substrate
