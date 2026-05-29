@@ -1,11 +1,18 @@
+```tcl
 # =====================================================================
-# Sentaurus Process - Pure 3D Fixed Region Syntax with Quotes
+# Sentaurus Process - Corrected 3D Silicon Etch Example
 # =====================================================================
 
-# 1. Initialize the 3D Math Environment
+go sprocess
+
+# ---------------------------------------------------------------------
+# 1. Enable 3D Simulation
+# ---------------------------------------------------------------------
 math dimension=3
 
-# 2. Define a 3D grid box with explicit edge tags
+# ---------------------------------------------------------------------
+# 2. Define Mesh Lines
+# ---------------------------------------------------------------------
 line x location=0.0 spacing=0.05 tag=Left
 line x location=1.0 spacing=0.05 tag=Right
 
@@ -15,35 +22,76 @@ line y location=2.0 spacing=0.05 tag=Bottom
 line z location=0.0 spacing=0.05 tag=Front
 line z location=1.0 spacing=0.05 tag=Back
 
+# ---------------------------------------------------------------------
+# 3. Define Silicon Region
+# ---------------------------------------------------------------------
+region Silicon \
+    xlo=0.0 xhi=1.0 \
+    ylo=0.0 yhi=2.0 \
+    zlo=0.0 zhi=1.0
 
-region Silicon xlo=0.0 xhi=1.0 ylo=0.0 yhi=1.0
+# ---------------------------------------------------------------------
+# 4. Initialize Wafer
+# ---------------------------------------------------------------------
+init concentration=1.0e15 field=Boron wafer.orient=100
 
-# 4. Initialize the domain (Blank 'init' is completely legal here)
-init
+# ---------------------------------------------------------------------
+# 5. Deposit Oxide Hard Mask
+# ---------------------------------------------------------------------
+deposit material=Oxide \
+        type=isotropic \
+        thickness=0.2
 
-# 5. Deposit a 0.2-micron thick Mask Layer (Oxide) on top
-deposit material=oxide type=isotropic thickness=0.2
+# ---------------------------------------------------------------------
+# 6. Define Lithography Mask
+# ---------------------------------------------------------------------
+mask name=trench_window \
+     left=0.3 right=0.7 \
+     front=0.3 back=0.7 \
+     negative
 
-# 6. Define the 2D Mask layout on the X-Z surface
-mask name=trench_window left=0.3 right=0.7 front=0.3 back=0.7 negative
+# ---------------------------------------------------------------------
+# 7. Apply Photoresist
+# ---------------------------------------------------------------------
+photo mask=trench_window thickness=0.5
 
-# 7. Apply photolithography resist
-photo thickness=0.5 mask=trench_window
+# ---------------------------------------------------------------------
+# 8. Open Oxide Window
+# ---------------------------------------------------------------------
+etch material=Oxide \
+     type=anisotropic \
+     thickness=0.25
 
-# 8. Etch the Oxide mask window open
-etch material=oxide type=anisotropic thickness=0.25
+# ---------------------------------------------------------------------
+# 9. Strip Photoresist
+# ---------------------------------------------------------------------
+strip PhotoResist
 
-# 9. Strip the temporary photolithography resist
-strip photo
+# ---------------------------------------------------------------------
+# 10. Directional Silicon Etch
+# ---------------------------------------------------------------------
+etch material=Silicon \
+     type=directional \
+     direction="{0 1 0}" \
+     rate=0.4 \
+     time=1.0
 
-# 10. Run the DRIE Silicon Etch using your corrected vector syntax
-etch material=silicon type=directional direction= {0.1 1 0.1} rate=0.4 time=1.0
-
-# 11. Adaptively smooth and re-mesh the new 3D layout boundary
+# ---------------------------------------------------------------------
+# 11. Remesh Structure
+# ---------------------------------------------------------------------
 grid remesh
 
-# 12. Save the final 3D structure mesh to a TDR file
-struct tdr=simple_etch_3d_out.tdr
+# ---------------------------------------------------------------------
+# 12. Save Structure
+# ---------------------------------------------------------------------
+struct outfile="simple_etch_3d_out.tdr"
 
-puts "3D Benchmark simulation finished successfully!"
-exit
+# ---------------------------------------------------------------------
+# 13. Optional Visualization
+# ---------------------------------------------------------------------
+# tonyplot simple_etch_3d_out.tdr
+
+puts "3D benchmark simulation finished successfully!"
+
+quit
+```
