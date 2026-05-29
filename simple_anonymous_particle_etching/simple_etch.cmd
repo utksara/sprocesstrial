@@ -1,4 +1,4 @@
-```tcl
+
 # =====================================================================
 # Sentaurus Process - Corrected 3D Silicon Etch Example
 # =====================================================================
@@ -94,4 +94,3 @@ struct outfile="simple_etch_3d_out.tdr"
 puts "3D benchmark simulation finished successfully!"
 
 quit
-```
