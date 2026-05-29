@@ -1,9 +1,7 @@
-
 # =====================================================================
-# Sentaurus Process - Corrected 3D Silicon Etch Example
+# Sentaurus Process 3D Silicon Etch Example
+# Standalone sprocess-compatible CMD file
 # =====================================================================
-
-go sprocess
 
 # ---------------------------------------------------------------------
 # 1. Enable 3D Simulation
@@ -11,16 +9,16 @@ go sprocess
 math dimension=3
 
 # ---------------------------------------------------------------------
-# 2. Define Mesh Lines
+# 2. Define Mesh
 # ---------------------------------------------------------------------
-line x location=0.0 spacing=0.05 tag=Left
-line x location=1.0 spacing=0.05 tag=Right
+line x location=0.0 spacing=0.05
+line x location=1.0 spacing=0.05
 
-line y location=0.0 spacing=0.05 tag=Top
-line y location=2.0 spacing=0.05 tag=Bottom
+line y location=0.0 spacing=0.05
+line y location=2.0 spacing=0.05
 
-line z location=0.0 spacing=0.05 tag=Front
-line z location=1.0 spacing=0.05 tag=Back
+line z location=0.0 spacing=0.05
+line z location=1.0 spacing=0.05
 
 # ---------------------------------------------------------------------
 # 3. Define Silicon Region
@@ -31,7 +29,7 @@ region Silicon \
     zlo=0.0 zhi=1.0
 
 # ---------------------------------------------------------------------
-# 4. Initialize Wafer
+# 4. Initialize Substrate
 # ---------------------------------------------------------------------
 init concentration=1.0e15 field=Boron wafer.orient=100
 
@@ -39,16 +37,15 @@ init concentration=1.0e15 field=Boron wafer.orient=100
 # 5. Deposit Oxide Hard Mask
 # ---------------------------------------------------------------------
 deposit material=Oxide \
-        type=isotropic \
-        thickness=0.2
+    type=isotropic \
+    thickness=0.2
 
 # ---------------------------------------------------------------------
-# 6. Define Lithography Mask
+# 6. Define Mask Window
 # ---------------------------------------------------------------------
 mask name=trench_window \
-     left=0.3 right=0.7 \
-     front=0.3 back=0.7 \
-     negative
+    left=0.3 right=0.7 \
+    front=0.3 back=0.7
 
 # ---------------------------------------------------------------------
 # 7. Apply Photoresist
@@ -56,11 +53,11 @@ mask name=trench_window \
 photo mask=trench_window thickness=0.5
 
 # ---------------------------------------------------------------------
-# 8. Open Oxide Window
+# 8. Etch Oxide Opening
 # ---------------------------------------------------------------------
 etch material=Oxide \
-     type=anisotropic \
-     thickness=0.25
+    type=anisotropic \
+    thickness=0.25
 
 # ---------------------------------------------------------------------
 # 9. Strip Photoresist
@@ -68,13 +65,12 @@ etch material=Oxide \
 strip PhotoResist
 
 # ---------------------------------------------------------------------
-# 10. Directional Silicon Etch
+# 10. Silicon Trench Etch
 # ---------------------------------------------------------------------
 etch material=Silicon \
-     type=directional \
-     direction="{0 1 0}" \
-     rate=0.4 \
-     time=1.0
+    type=anisotropic \
+    rate=0.4 \
+    time=1.0
 
 # ---------------------------------------------------------------------
 # 11. Remesh Structure
@@ -82,15 +78,11 @@ etch material=Silicon \
 grid remesh
 
 # ---------------------------------------------------------------------
-# 12. Save Structure
+# 12. Save Final Structure
 # ---------------------------------------------------------------------
 struct outfile="simple_etch_3d_out.tdr"
 
 # ---------------------------------------------------------------------
-# 13. Optional Visualization
+# 13. Exit
 # ---------------------------------------------------------------------
-# tonyplot simple_etch_3d_out.tdr
-
-puts "3D benchmark simulation finished successfully!"
-
 quit
