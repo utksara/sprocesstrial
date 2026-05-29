@@ -2,7 +2,7 @@
 # Sentaurus Visual V-2024.03.
 # Tcl log file.
 #------------------------------------------
-# Date: May 26, 2026. 14:40:30.
+# Date: May 29, 2026. 16:16:24.
 # Version: 35.3.8727837 (3.8727837)
 # Mode: Interactive (GUI).
 # Mesa: enabled.
@@ -11,45 +11,27 @@
 # Kernel: 3.10.0-1160.114.2.el7.x86_64.
 ###########################################
 
-load_file /home/utkarsh/etching_sentaurus/sprocesstrial/simple_anonymous_particle_etching/initial_3d_domain_fps.tdr -fod
-create_plot -1d
-select_plots {Plot_1}
-#-> Plot_1
-#-> Plot_1
-#-> initial_3d_domain_fps
-reload_datasets
+load_file /home/utkarsh/etching_sentaurus/sprocesstrial/simple_anonymous_particle_etching/simple_etch_3d_out_fps.tdr -fod
+create_plot -dataset simple_etch_3d_out_fps_geometry_0
+select_plots {Plot_simple_etch_3d_out_fps_geometry_0}
+#-> Plot_simple_etch_3d_out_fps_geometry_0
+#-> Plot_simple_etch_3d_out_fps_geometry_0
+create_plot -dataset simple_etch_3d_out_fps_geometry_1
+select_plots {Plot_simple_etch_3d_out_fps_geometry_1}
+#-> Plot_simple_etch_3d_out_fps_geometry_1
+#-> Plot_simple_etch_3d_out_fps_geometry_1
+#-> simple_etch_3d_out_fps_geometry_0
+select_plots {Plot_simple_etch_3d_out_fps_geometry_0}
+#-> Plot_simple_etch_3d_out_fps_geometry_0
+rotate_plot -plot Plot_simple_etch_3d_out_fps_geometry_0 -x 127.244 -y 103.083 -z -26.0829 -absolute
 #-> 0
-load_file /home/utkarsh/etching_sentaurus/sprocesstrial/simple_anonymous_particle_etching/simple_etch_out_fps.tdr -fod
-create_plot -dataset simple_etch_out_fps
-select_plots {Plot_simple_etch_out_fps}
-#-> Plot_simple_etch_out_fps
-#-> Plot_simple_etch_out_fps
-#-> simple_etch_out_fps
-select_plots {Plot_1}
-#-> Plot_1
-select_plots {Plot_simple_etch_out_fps}
-#-> Plot_simple_etch_out_fps
-select_plots {Plot_1}
-#-> Plot_1
-load_file /home/utkarsh/etching_sentaurus/sprocesstrial/simple_anonymous_particle_etching/initial_3d_domain_fps.tdr -fod
-#-> initial_3d_domain_fps_2
-select_plots {Plot_simple_etch_out_fps}
-#-> Plot_simple_etch_out_fps
-select_plots {Plot_1}
-#-> Plot_1
-select_plots {Plot_simple_etch_out_fps}
-#-> Plot_simple_etch_out_fps
-select_plots {Plot_1}
-#-> Plot_1
-select_plots {Plot_simple_etch_out_fps}
-#-> Plot_simple_etch_out_fps
-select_plots {Plot_1}
-#-> Plot_1
-select_plots {Plot_simple_etch_out_fps}
-#-> Plot_simple_etch_out_fps
-set_material_prop {Gas} -plot Plot_simple_etch_out_fps -geom simple_etch_out_fps -on
+rotate_plot -plot Plot_simple_etch_3d_out_fps_geometry_0 -x 121.257 -y 101.732 -z 0.734721 -absolute
 #-> 0
-set_material_prop {Interface} -plot Plot_simple_etch_out_fps -geom simple_etch_out_fps -on
+rotate_plot -plot Plot_simple_etch_3d_out_fps_geometry_0 -x 136.008 -y 128.152 -z -48.1468 -absolute
 #-> 0
-select_plots {Plot_1}
-#-> Plot_1
+rotate_plot -plot Plot_simple_etch_3d_out_fps_geometry_0 -x 112.045 -y 110.123 -z -9.31023 -absolute
+#-> 0
+set_camera_prop -plot Plot_simple_etch_3d_out_fps_geometry_0 -setup {"0.400001 1 0.5" "-18.1317 -4.23733 5.89858" "-0.16178 -0.370396 -0.914677" 6.86804 0.950535}
+#-> 0
+export_view /home/utkarsh/etching_sentaurus/sprocesstrial/simple_anonymous_particle_etching/etching_svisual_export.png -format png
+#-> 0

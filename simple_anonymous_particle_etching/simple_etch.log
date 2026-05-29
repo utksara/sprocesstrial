@@ -16,10 +16,10 @@
 
 Compiled Tue Feb 13 13:27:01 PST 2024 on sce-tcad-build01
 
-      Started at: Tue May 26 14:37:16 2026 (IST)
+      Started at: Fri May 29 16:11:50 2026 (IST)
        User name: utkarsh
        Host name: localhost.localdomain
-             PID: 163358
+             PID: 85965
     Architecture: x86_64
 Operating system: Linux rel. 3.10.0-1160.114.2.el7.x86_64 ver. #1 SMP Wed Mar 20 15:54:52 UTC 2024
 
@@ -30,140 +30,161 @@ Syntax check complete.
 ------------------------------------------------------------------------------
 
 Starting Tcl interpreter with inputfile: simple_etch.cmd
-            sprocess: Checked out 1 license(s) at Tue May 26 14:37:19 2026
+            sprocess: Checked out 1 license(s) at Fri May 29 16:11:53 2026
 
 Loading models file: /home/synopsys/installed_file/sentaurus/V-2024.03//tcad/current/lib/sprocess/TclLib/SPROCESS.models... done.
-------------------------------------------------------------------- line -----
-line X location= 0.00e+00<um> spacing= 0.100<um> tag= "Left"
+------------------------------------------------------------------- math -----
+math dimension= 3
 ------------------------------------------------------------------------------
 ------------------------------------------------------------------- line -----
-line X location= 1.00<um> spacing= 0.100<um> tag= "Right"
+line X location= 0.00e+00<um> spacing= 0.0500<um> tag= "Left"
 ------------------------------------------------------------------------------
 ------------------------------------------------------------------- line -----
-line Z location= 0.00e+00<um> spacing= 0.100<um> tag= "Front"
+line X location= 1.00<um> spacing= 0.0500<um> tag= "Right"
 ------------------------------------------------------------------------------
 ------------------------------------------------------------------- line -----
-line Z location= 1.00<um> spacing= 0.100<um> tag= "Back"
+line Y location= 0.00e+00<um> spacing= 0.0500<um> tag= "Top"
 ------------------------------------------------------------------------------
 ------------------------------------------------------------------- line -----
-line Y location= 0.00e+00<um> spacing= 0.0500<um> tag= "SubTop"
+line Y location= 2.00<um> spacing= 0.0500<um> tag= "Bottom"
 ------------------------------------------------------------------------------
 ------------------------------------------------------------------- line -----
-line Y location= 2.00<um> spacing= 0.400<um> tag= "SubBottom"
+line Z location= 0.00e+00<um> spacing= 0.0500<um> tag= "Front"
+------------------------------------------------------------------------------
+------------------------------------------------------------------- line -----
+line Z location= 1.00<um> spacing= 0.0500<um> tag= "Back"
 ------------------------------------------------------------------------------
 ----------------------------------------------------------------- region -----
-region xlo= "Left" xhi= "Right" ylo= "SubTop" yhi= "SubBottom" zlo= "Front" zhi= "Back" Silicon
+region xlo= "Left" xhi= "Right" ylo= "Top" yhi= "Bottom" zlo= "Front" zhi= "Back" Silicon
 ------------------------------------------------------------------------------
 ------------------------------------------------------------------- init -----
-init concentration= 1.00e+15<cm-3> field= "Boron"
+init
 ------------------------------------------------------------------------------
-          sprocess2d: Checked out 1 license(s) at Tue May 26 14:37:21 2026
+          sprocess2d: Checked out 1 license(s) at Fri May 29 16:11:55 2026
 
-          sprocess3d: Checked out 1 license(s) at Tue May 26 14:37:21 2026
+          sprocess3d: Checked out 1 license(s) at Fri May 29 16:11:55 2026
 
 Creating structure...
 Recreating refinements to take into account updated simulation dimension.
 Done recreating refinements.
 
 
-Points: 11
-Nodes: 11
-Edges: 10
+Points: 21
+Nodes: 21
+Edges: 20
 Faces: 0
 Volumes: 0
 
 ---------------------------------------------------------------- deposit -----
 deposit type= "isotropic" thickness= 0.200<um> material= {Oxide}
 ------------------------------------------------------------------------------
-MGoals time: 0.040611
+MGoals time: 0.0406342
 
 Updating sprocess mesh before Etch/Depo relax.
 Generating SnMesh mesh... 
-SnMesh time: 2.7970e-03
+SnMesh time: 2.7260e-03
 
 ========================  tri-grid quality (Gas excluded)  =======================
     0  10  20  30  40  50  60  70  80  90 100 110 120 130 140 150 160 170 180
- %   20   6                           6  46                                
+ %   22   5                           5  50                                
 ---------------------------------------------------------------------------------
-minAngle: 0.0744856  maxAngle: 90
-nVerts = 94  nTris = 92  nMats = 5
+minAngle: 0.148971  maxAngle: 90
+nVerts = 112  nTris = 110  nMats = 5
 max connectivity (tris per node): 3 [near (-0.262518 0)]
 bmin: 1 0
 bmax: -0.30002 0.000130002
 min edgeLength: 0.000130002  [near (-0.199232 6.5001e-05)]
-min volume: 3.80891e-08  max volume: 6.5001e-06  Total volume: 0.000156002
+min volume: 3.80891e-08  max volume: 3.25005e-06  Total volume: 0.000156002
 bbox  volume: 0.000169005
 Are all boundaries on bbox? true
 =================================================================================
 
 Smallest region: Oxide_1  Total volume: 2.60001e-05
-Initializing sprocess...time: 7.4670e-03
-Interpolating...elapsed time: 0.01
+Initializing sprocess...time: 7.3750e-03
+Interpolating...elapsed time: 0.0000e+00
 sprocess Pardiso thread count = 1
 sprocess parallel assembly thread count = 1
 Mechanics:         0s   to         1s   step    :         1s   temp: 26.9C->26.9C
----------------------------------------------------------------- deposit -----
-deposit type= "isotropic" thickness= 0.400<um> material= {Photoresist}
+------------------------------------------------------------------- mask -----
+mask name= "trench_window" left= 0.300<um> right= 0.700<um> front= 0.300<um> back= 0.700<um>
 ------------------------------------------------------------------------------
-MGoals time: 0.0765169
+------------------------------------------------------------------ photo -----
+photo mask= "trench_window" thickness= 0.500<um>
+------------------------------------------------------------------------------
+Increasing dimension 1 -> 3
+Creating structure... 
+Points: 2296
+Nodes: 2460
+Edges: 6855
+Faces: 4400
+Volumes: 0
+
+Copying data...done
+
+Creating structure... 
+Points: 48216
+Nodes: 51660
+Edges: 330255
+Faces: 542600
+Volumes: 264000
+
+Copying data...done
+
+Initializing boundary from bulk mesh...decimating...done.
+Recreating refinements to take into account updated simulation dimension.
+Done recreating refinements.
+
+MGoals time: 0.02876
+------------------------------------------------------------------- etch -----
+etch type= "anisotropic" thickness= 0.250<um> material= {Oxide}
+------------------------------------------------------------------------------
+MGoals time: 0.011338
 
 Updating sprocess mesh before Etch/Depo relax.
 Generating SnMesh mesh... 
-SnMesh time: 2.7550e-03
-
-========================  tri-grid quality (Gas excluded)  =======================
-    0  10  20  30  40  50  60  70  80  90 100 110 120 130 140 150 160 170 180
- %   24   7   1   1           1   1   7  57                                
----------------------------------------------------------------------------------
-minAngle: 0.0974049  maxAngle: 90
-nVerts = 106  nTris = 104  nMats = 7
-max connectivity (tris per node): 3 [near (-0.599996 0)]
-bmin: 1 0
-bmax: -0.700038 0.000170004
-min edgeLength: 0.000170004  [near (-0.525029 8.50019e-05)]
-min volume: 2.59943e-08  max volume: 8.50019e-06  Total volume: 0.000272005
-bbox  volume: 0.000289013
-Are all boundaries on bbox? true
-=================================================================================
-
-Smallest region: Oxide_1  Total volume: 3.40004e-05
-Initializing sprocess...time: 0.015276
-Interpolating...elapsed time: 0.01
+Smallest region: Gas_1  Total volume: 0.312044
+SnMesh time: 7.56799
+Initializing sprocess...time: 1.21172
+Interpolating...elapsed time: 2.28
+sprocess ILS thread count = 1
 Mechanics:         0s   to         1s   step    :         1s   temp: 26.9C->26.9C
+
+------------------------------------------------------------------ strip -----
+strip Photoresist
+------------------------------------------------------------------------------
+MGoals time: 2.5721e-03
+------------------------------------------------------------------- etch -----
+etch time= 1.00<min> rate= {0.400<um/min>} type= "anisotropic" material= {Silicon}
+------------------------------------------------------------------------------
+MGoals time: 5.4369e-03
+
+Updating sprocess mesh before Etch/Depo relax.
+Generating SnMesh mesh... 
+Smallest region: Oxide_1  Total volume: 0.367996
+SnMesh time: 6.99022
+Initializing sprocess...time: 1.11323
+Interpolating...elapsed time: 0.85
+Mechanics:         0s   to         1s   step    :         1s   temp: 26.9C->26.9C
+
 ------------------------------------------------------------------- grid -----
 grid remesh
 ------------------------------------------------------------------------------
 Generating SnMesh mesh... 
-SnMesh time: 2.7180e-03
-
-========================  tri-grid quality (Gas excluded)  =======================
-    0  10  20  30  40  50  60  70  80  90 100 110 120 130 140 150 160 170 180
- %   24   7   1   1           1   1   7  57                                
----------------------------------------------------------------------------------
-minAngle: 0.0974049  maxAngle: 90
-nVerts = 106  nTris = 104  nMats = 7
-max connectivity (tris per node): 3 [near (-0.599996 0)]
-bmin: 1 0
-bmax: -0.700038 0.000170004
-min edgeLength: 0.000170004  [near (-0.525029 8.50019e-05)]
-min volume: 2.59943e-08  max volume: 8.50019e-06  Total volume: 0.000272005
-bbox  volume: 0.000289013
-Are all boundaries on bbox? true
-=================================================================================
-
-Smallest region: Oxide_1  Total volume: 3.40004e-05
-Initializing sprocess...time: 0.013864
-Interpolating...elapsed time: 0.01
+Smallest region: Oxide_1  Total volume: 0.367996
+SnMesh time: 7.07053
+Initializing sprocess...time: 1.10223
+Interpolating...elapsed time: 0.8
 ----------------------------------------------------------------- struct -----
-struct tdr= "initial_3d_domain.tdr"
+struct tdr= "simple_etch_3d_out"
 ------------------------------------------------------------------------------
-Points: 53
-Nodes: 59
-Edges: 52
-Faces: 0
-Volumes: 0
+Points: 24010
+Nodes: 28156
+Edges: 169689
+Faces: 270552
+Volumes: 129016
 
-Writing file initial_3d_domain_fps.tdr...done
+Saving Delaunay-Voronoi weights.
+Writing file simple_etch_3d_out_fps.tdr...done
 
 ------------------------------------------------------------------------------
 License features used:
@@ -172,26 +193,38 @@ License features used:
     sprocess3d
 ------------------------------------------------------------------------------
 
-Elapsed Time:	00:00:05
-User Time:	00:00:05
-CPU Time:	00:00:05
+Elapsed Time:	00:00:50
+User Time:	00:00:50
+CPU Time:	00:00:49
 
 Detailed CPU time report:
 
-0.88 sec (34.4%) Other Program Parts (1 calls).
-0.57 sec (22.4%) implant command (333 calls).
-0.24 sec (9.5%) struct command (1 calls).
-0.20 sec (7.9%) mater command (107 calls).
-0.15 sec (5.8%) reaction command (68 calls).
-0.13 sec (5.2%) deposit command (2 calls).
-0.12 sec (4.6%) mgoals (2 calls).
+21.62 sec (45.2%) SnMesh meshing (4 calls).
+4.53 sec (9.5%) Solver(Mechanics) (3 calls).
+4.02 sec (8.4%) etch command (2 calls).
+3.86 sec (8.1%) Bulk Interpolation (4 calls).
+3.19 sec (6.7%) Transfer from mesher 3D (3 calls).
+3.18 sec (6.6%) newDim (1 calls).
+1.61 sec (3.4%) FieldServer copy (4 calls).
+1.44 sec (3.0%) struct command (1 calls).
+1.26 sec (2.6%) Mechanics assembly (serial mode) (3 calls).
+0.89 sec (1.9%) Other Program Parts (1 calls).
+0.57 sec (1.2%) implant command (333 calls).
+0.28 sec (0.6%) Mechanics preassembly (3 calls).
+0.27 sec (0.6%) MakeInterfaces (9 calls).
 
 Detailed elapsed time report:
 
-0.88 sec (34.5%) Other Program Parts (1 calls).
-0.57 sec (22.4%) implant command (333 calls).
-0.24 sec (9.5%) struct command (1 calls).
-0.20 sec (8.0%) mater command (107 calls).
-0.15 sec (5.8%) reaction command (68 calls).
-0.12 sec (4.7%) deposit command (2 calls).
-0.12 sec (4.6%) mgoals (2 calls).
+21.37 sec (44.9%) SnMesh meshing (4 calls).
+4.54 sec (9.5%) Solver(Mechanics) (3 calls).
+4.02 sec (8.5%) etch command (2 calls).
+3.87 sec (8.1%) Bulk Interpolation (4 calls).
+3.20 sec (6.7%) Transfer from mesher 3D (3 calls).
+3.19 sec (6.7%) newDim (1 calls).
+1.62 sec (3.4%) FieldServer copy (4 calls).
+1.44 sec (3.0%) struct command (1 calls).
+1.26 sec (2.6%) Mechanics assembly (serial mode) (3 calls).
+0.89 sec (1.9%) Other Program Parts (1 calls).
+0.57 sec (1.2%) implant command (333 calls).
+0.28 sec (0.6%) Mechanics preassembly (3 calls).
+0.27 sec (0.6%) MakeInterfaces (9 calls).
