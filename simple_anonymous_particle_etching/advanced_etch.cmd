@@ -13,7 +13,7 @@ line y location = 3.00 spacing = 0.50 tag = SubstrateBottom
 region Silicon xlo = LeftEdge xhi = RightEdge ylo = SubstrateTop yhi = SubstrateBottom
 
 # 2. DEVICE SUBSTRATE INITIALIZATION
-init concentration = 1.0e15 field = Boron
+init concentration = 1.0e15 field = Silicon
 
 # 3. ADVANCED ADAPTIVE REFINEBOX SYSTEM
 refinebox name = Etch_Refinement \
