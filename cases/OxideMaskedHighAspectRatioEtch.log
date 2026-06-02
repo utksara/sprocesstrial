@@ -16,10 +16,10 @@
 
 Compiled Tue Feb 13 13:27:01 PST 2024 on sce-tcad-build01
 
-      Started at: Tue Jun  2 15:24:06 2026 (IST)
+      Started at: Tue Jun  2 15:43:04 2026 (IST)
        User name: utkarsh
        Host name: localhost.localdomain
-             PID: 267964
+             PID: 272019
     Architecture: x86_64
 Operating system: Linux rel. 3.10.0-1160.114.2.el7.x86_64 ver. #1 SMP Wed Mar 20 15:54:52 UTC 2024
 
@@ -30,7 +30,7 @@ Syntax check complete.
 ------------------------------------------------------------------------------
 
 Starting Tcl interpreter with inputfile: OxideMaskedHighAspectRatioEtch.cmd
-            sprocess: Checked out 1 license(s) at Tue Jun  2 15:24:10 2026
+            sprocess: Checked out 1 license(s) at Tue Jun  2 15:43:07 2026
 
 Loading models file: /home/synopsys/installed_file/sentaurus/V-2024.03//tcad/current/lib/sprocess/TclLib/SPROCESS.models... done.
 ------------------------------------------------------------------- math -----
@@ -60,9 +60,9 @@ region xlo= "Left" xhi= "Right" ylo= "Top" yhi= "Bottom" zlo= "Front" zhi= "Back
 ------------------------------------------------------------------- init -----
 init
 ------------------------------------------------------------------------------
-          sprocess2d: Checked out 1 license(s) at Tue Jun  2 15:24:12 2026
+          sprocess2d: Checked out 1 license(s) at Tue Jun  2 15:43:09 2026
 
-          sprocess3d: Checked out 1 license(s) at Tue Jun  2 15:24:12 2026
+          sprocess3d: Checked out 1 license(s) at Tue Jun  2 15:43:09 2026
 
 Creating structure...
 Recreating refinements to take into account updated simulation dimension.
@@ -78,11 +78,11 @@ Volumes: 0
 ---------------------------------------------------------------- deposit -----
 deposit type= "isotropic" thickness= 0.200<um> material= {Oxide}
 ------------------------------------------------------------------------------
-MGoals time: 0.043345
+MGoals time: 0.043242
 
 Updating sprocess mesh before Etch/Depo relax.
 Generating SnMesh mesh... 
-SnMesh time: 2.9460e-03
+SnMesh time: 3.0180e-03
 
 ========================  tri-grid quality (Gas excluded)  =======================
     0  10  20  30  40  50  60  70  80  90 100 110 120 130 140 150 160 170 180
@@ -100,7 +100,7 @@ Are all boundaries on bbox? true
 =================================================================================
 
 Smallest region: Oxide_1  Total volume: 2.60001e-05
-Initializing sprocess...time: 7.7630e-03
+Initializing sprocess...time: 7.7840e-03
 Interpolating...elapsed time: 0.0000e+00
 sprocess Pardiso thread count = 1
 sprocess parallel assembly thread count = 1
@@ -134,16 +134,16 @@ Initializing boundary from bulk mesh...decimating...done.
 Recreating refinements to take into account updated simulation dimension.
 Done recreating refinements.
 
-MGoals time: 0.044925
+MGoals time: 0.0453069
 ------------------------------------------------------------------- etch -----
 etch type= "anisotropic" thickness= 0.250<um> material= {Oxide}
 ------------------------------------------------------------------------------
-MGoals time: 0.011122
+MGoals time: 0.0108361
 
 Updating sprocess mesh before Etch/Depo relax.
 Generating SnMesh mesh... 
 Smallest region: Gas_1  Total volume: 0.372066
-SnMesh time: 38.153
-Initializing sprocess...time: 7.32905
-Interpolating...elapsed time: 18.3
+SnMesh time: 37.5043
+Initializing sprocess...time: 7.15548
+Interpolating...elapsed time: 18.01
 sprocess ILS thread count = 1

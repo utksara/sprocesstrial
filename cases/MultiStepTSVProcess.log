@@ -1,0 +1,81 @@
+****************************************************************************
+***                          Sentaurus Process                           ***
+***                          Version V-2024.03                           ***
+***                      (3.8727837, x86_64, Linux)                      ***
+***                                                                      ***
+***                       Copyright (C) 1993-2002                        ***
+***          The board of regents of the University of Florida           ***
+***                       Copyright (C) 1994-2024                        ***
+***                            Synopsys, Inc.                            ***
+***                                                                      ***
+***  This software and the associated documentation are confidential     ***
+***  and proprietary to Synopsys, Inc.  Your use or disclosure of this   ***
+***  software is subject to the terms and conditions of a written        ***
+***  license agreement between you, or your company, and Synopsys, Inc.  ***
+****************************************************************************
+
+Compiled Tue Feb 13 13:27:01 PST 2024 on sce-tcad-build01
+
+      Started at: Tue Jun  2 15:45:42 2026 (IST)
+       User name: utkarsh
+       Host name: localhost.localdomain
+             PID: 272721
+    Architecture: x86_64
+Operating system: Linux rel. 3.10.0-1160.114.2.el7.x86_64 ver. #1 SMP Wed Mar 20 15:54:52 UTC 2024
+
+------------------------------------------------------------------------------
+Checking syntax of MultiStepTSVProcess.cmd:
+
+Syntax check complete.
+------------------------------------------------------------------------------
+
+Starting Tcl interpreter with inputfile: MultiStepTSVProcess.cmd
+            sprocess: Checked out 1 license(s) at Tue Jun  2 15:45:46 2026
+
+Loading models file: /home/synopsys/installed_file/sentaurus/V-2024.03//tcad/current/lib/sprocess/TclLib/SPROCESS.models... done.
+---------------------------------------------------------------- deposit -----
+deposit type= "isotropic" thickness= 0.500<um> material= {Oxide}
+------------------------------------------------------------------------------
+MGoals time: 3.4904e-04
+
+Updating sprocess mesh before Etch/Depo relax.
+[1m
+** Warning **
+[0mThere was a floating point exception in this simulation. This may have occurred
+in a non-critical part of the simulation and not have damaged the results.
+Please check the results carefully !
+
+ ... continuing execution
+
+------------------------------------------------------------------------------
+License features used:
+    sprocess
+------------------------------------------------------------------------------
+
+Elapsed Time:	00:00:05
+User Time:	00:00:05
+CPU Time:	00:00:04
+
+Detailed CPU time report:
+
+0.90 sec (46.9%) Other Program Parts (1 calls).
+0.58 sec (30.1%) implant command (333 calls).
+0.21 sec (10.7%) mater command (107 calls).
+0.15 sec (7.7%) reaction command (68 calls).
+
+Detailed elapsed time report:
+
+0.91 sec (47.2%) Other Program Parts (1 calls).
+0.58 sec (30.0%) implant command (333 calls).
+0.21 sec (10.7%) mater command (107 calls).
+0.15 sec (7.7%) reaction command (68 calls).
+
+Simulation failed! 1 error or warning.
+================================================
+
+WARNING 1
+=======================================================
+There was a floating point exception in this simulation. This may have occurred
+in a non-critical part of the simulation and not have damaged the results.
+Please check the results carefully
+
