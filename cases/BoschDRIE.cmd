@@ -1,4 +1,4 @@
-```tcl
+
 # scenario3_bosch.cmd
 
 math dimension=3
@@ -46,4 +46,3 @@ deposit material=Polymer type=isotropic thickness=0.03
 etch material=Silicon type=anisotropic rate=0.6 time=1
 
 struct tdr=scenario3_bosch
-```
