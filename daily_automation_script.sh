@@ -6,6 +6,14 @@ cd simple_anonymous_particle_etching
 timeout 120s sprocess simple_etch.cmd
 cd ..
 
+
+# Scenario 1
+echo "Running scenario 1..."
+cd cases
+timeout 120s sprocess OxideMaskedHighAspectRatioEtch.cmd
+timeout 120s sprocess SimpleRIESiliconTrench.cmd
+cd ..
+
 # Git automation
 # date_time=$(date +"%Y%m%d_%H%M%S")
 # git add -A
