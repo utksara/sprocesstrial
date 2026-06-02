@@ -1,4 +1,3 @@
-```tcl
 # scenario2_har.cmd
 
 math dimension=3
@@ -34,4 +33,3 @@ strip PhotoResist
 etch material=Silicon type=anisotropic rate=0.35 time=8
 
 struct tdr=scenario2_har
-```

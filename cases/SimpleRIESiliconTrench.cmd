@@ -1,4 +1,3 @@
-```tcl
 # scenario1_rie.cmd
 
 math dimension=3
@@ -30,4 +29,3 @@ etch material=Silicon type=anisotropic rate=0.20 time=5.0
 strip PhotoResist
 
 struct tdr=scenario1_rie
-```
