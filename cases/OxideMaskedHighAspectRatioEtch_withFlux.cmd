@@ -1,64 +1,111 @@
+```tcl id="7u4zrc"
 # =====================================================================
-# Sentaurus Process - Physical Flux-Based DRIE (Bosch) Simulation
+# Sentaurus Process - Calibrated Flux-Based Bosch Approximation
 # =====================================================================
+
 math dimension=3
 
-# [Standard Grid & Init Blocks go here - omitted for brevity]
-# (Assume Silicon substrate with an Oxide mask window is already initialized)
-
 # ---------------------------------------------------------------------
-# STEP 1: DEFINE THE PHYSICAL PLASMA MACHINES
+# Reactor Conditions (for documentation/calibration)
 # ---------------------------------------------------------------------
 
-# A. The Passivation Cycle Machine (C4F8 Plasma)
-# We specify the actual neutral flux of polymer precursors and how they stick.
-define_dep_machine name=C4F8_Flash \
-    flux=1.5e17 \
-    sticking=0.15 \
-    angular_distribution=isotropic
+set Pressure_mTorr 15
+set ICPPower_W     1000
+set Bias_V         120
 
-# B. The Etching Cycle Machine (SF6 Plasma)
-# We break this down into Ions (directional) and Neutrals (chemical/isotropic)
-define_etch_machine name=SF6_Plasma \
-    ion_flux=2.0e16 \
-    neutral_flux=8.0e17 \
-    ion_energy=120 \
-    exponent=50 \
-    neutral_distribution=isotropic
+set SF6_Flux       8.0e17
+set IonFlux        2.0e16
+set IonEnergy_eV   120
+
+set C4F8_Flux      1.5e17
 
 # ---------------------------------------------------------------------
-# STEP 2: DEFINE SURFACE REACTION PHYSICS
+# Convert Physical Fluxes -> Effective Process Parameters
+#
+# These values would normally come from calibration,
+# reactor simulation, or experiment.
 # ---------------------------------------------------------------------
-# Tell the simulator how Silicon reacts when hit by these specific fluxes
-material_parameter material=Silicon \
-    etch_yield={0.02 * ion_flux * (ion_energy^0.5)} \
-    chemical_etch_rate={0.005 * neutral_flux}
+
+set PolymerDepRate 0.015
+set SiliconEtchRate 0.45
+
+set DepTime 2.0
+set EtchTime 5.0
+
+set NumCycles 5
 
 # ---------------------------------------------------------------------
-# STEP 3: EXECUTE THE ACTUAL BOSCH LOOP
+# Mesh
 # ---------------------------------------------------------------------
-set total_cycles 5
 
-for {set i 1} {$i <= $total_cycles} {incr i} {
+line x location=0.0 spacing=0.02 tag=Left
+line x location=1.0 spacing=0.02 tag=Right
 
-    # Phase 1: Physical Polymer Deposition
-    # The engine tracks neutral shadowing; less polymer deposits at the deep trench bottom.
-    call_machine name=C4F8_Flash time=2.0
+line y location=0.0 spacing=0.02 tag=Top
+line y location=5.0 spacing=0.02 tag=Bottom
 
-    # Phase 2: Directional Ion Breakthrough & Chemical Etch
-    # High exponent means ions travel straight down, clearing the floor polymer 
-    # while neutrals chemically etch the newly exposed silicon.
-    call_machine name=SF6_Plasma time=5.0
+line z location=0.0 spacing=0.02 tag=Front
+line z location=1.0 spacing=0.02 tag=Back
 
-    # Grid maintenance is mandatory every cycle because the physical profile 
-    # will begin undulating (forming scallops) based on particle tracking.
+# ---------------------------------------------------------------------
+# Silicon Region
+# ---------------------------------------------------------------------
+
+region Silicon \
+    xlo=Left xhi=Right \
+    ylo=Top yhi=Bottom \
+    zlo=Front zhi=Back
+
+init
+
+# ---------------------------------------------------------------------
+# Hard Mask
+# ---------------------------------------------------------------------
+
+deposit material=Oxide \
+    type=isotropic \
+    thickness=0.20
+
+mask name=via \
+    left=0.45 right=0.55 \
+    front=0.45 back=0.55
+
+photo mask=via thickness=0.5
+
+etch material=Oxide \
+     type=anisotropic \
+     thickness=0.25
+
+strip PhotoResist
+
+# ---------------------------------------------------------------------
+# Bosch Loop
+# ---------------------------------------------------------------------
+
+for {set cycle 1} {$cycle <= $NumCycles} {incr cycle} {
+
+    puts "Starting Bosch cycle $cycle"
+
+    # Passivation
+    deposit material=Polymer \
+        type=isotropic \
+        rate=$PolymerDepRate \
+        time=$DepTime
+
+    # Directional Silicon Etch
+    etch material=Silicon \
+         type=anisotropic \
+         rate=$SiliconEtchRate \
+         time=$EtchTime
+
     grid remesh
-    
-    puts "Completed Flux-Based Bosch Cycle: $i"
+
+    puts "Completed Bosch cycle $cycle"
 }
 
 # ---------------------------------------------------------------------
-# STEP 4: SAVE THE COMPOSITE LAYOUT
+# Save Final Geometry
 # ---------------------------------------------------------------------
+
 struct tdr=flux_based_drie_out
-exit
+```
