@@ -1,4 +1,3 @@
-```tcl id="7u4zrc"
 # =====================================================================
 # Sentaurus Process - Calibrated Flux-Based Bosch Approximation
 # =====================================================================
@@ -108,4 +107,3 @@ for {set cycle 1} {$cycle <= $NumCycles} {incr cycle} {
 # ---------------------------------------------------------------------
 
 struct tdr=flux_based_drie_out
-```
