@@ -67,7 +67,7 @@ def create_svg_from_points(points, svg_path):
     tree.write(svg_path, encoding='utf-8', xml_declaration=True)
     print(f"Successfully converted and saved to {svg_path}")
 
-# --- Execution ---
+# --- Execution --- #generate SVG from TDR file
 if __name__ == "__main__":
     # Replace these paths with your real files
     # input_tdr = "simple_anonymous_particle_etching/simple_etch_out_fps.tdr"
