@@ -1,0 +1,2 @@
+load_file simple_etch_out_fps.tdr
+export_view simple_etch_out_fps.svg -format svg
