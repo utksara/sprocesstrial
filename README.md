@@ -52,7 +52,8 @@ Update this section each time a change is made
 ### Task 3:
 - [ ] In the current code there is no way to measure how much depth and width has been achieved, use
 .tdr and .log files find a way to extract depth and other dimension in the etching profile
-- [ ] In the csv file worked before, record the depth and bottom CD, top CD and mid CD in the etching profile
+- [ ] In the csv file worked before, record the depth and bottom width, top width and mid width in the etching profile
+- [ ] write a python script that can generate a 3-d surface data simply by read row of task_result.csv file. Use different colors to high light different sections of the image and use depth,  bottom width, top width and mid width to give approximate visualization of the trench
 
 ### Task 4:
 - [ ] Now also add the deposition simulation with C4F8 after each etching cycle, keep the time of deposition 1/3rd to 1/4th of the etching time 
