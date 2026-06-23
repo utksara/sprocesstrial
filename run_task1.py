@@ -34,10 +34,38 @@ def generate_cmd_files(combinations):
             content
         )
         
-        # Replace struct tdr name
+        # Inject Task 3 measurement section before struct tdr=
+        # Coordinate system: in 3D, x=horizontal(0-1), y=depth(0-3), z=horizontal(0-1)
+        # Mask at x=0.35-0.65, z=0.35-0.65; etch in y-direction.
+        # layers x=val shows horizontal x-distribution at depth y=val.
+        # Mask CD in x-direction = 0.65 - 0.35 = 0.3 um
+        mask_left = 0.35
+        mask_right = 0.65
+        etch_time = 8.0
+        measurement_code = f'''
+# === Task 3 Measurements (depth and CD) ===
+select z=1
+set depth_calc [expr {{$SiliconEtchRate * {etch_time}}}]
+puts "DOE: Trench_Depth [format %.6f $depth_calc]"
+set mid_y [expr {{$depth_calc / 2.0}}]
+set bot_y [expr {{$depth_calc - 0.05}}]
+puts "==LAYERS_TOP_CD=="
+layers x=0.05
+puts "==LAYERS_MID_CD=="
+layers x=$mid_y
+if {{ $bot_y > 0.05 }} {{
+    puts "==LAYERS_BOT_CD=="
+    layers x=$bot_y
+}} else {{
+    puts "==LAYERS_BOT_CD=="
+    layers x=0.05
+}}
+puts "==LAYERS_END=="
+'''
+        # Replace struct tdr name, inserting measurements before it
         content = re.sub(
-            r"struct tdr=\S+", 
-            f"struct tdr=OxideMaskedHighAspectRatioEtch_run_{run_id}", 
+            r"struct tdr=\S+",
+            measurement_code.strip() + f"\nstruct tdr=OxideMaskedHighAspectRatioEtch_run_{run_id}",
             content
         )
         
@@ -110,7 +138,7 @@ def collect_results(combinations):
     
     # Copy cmd files to task1_results and write csv
     with open(csv_path, "w") as csv_file:
-        csv_file.write("id,Pressure_mTorr,RFPower_W,Bias_V,SF6_sccm,SiliconEtchRate,cmd_file,tdr_file,log_file,changes_observed\n")
+        csv_file.write("id,Pressure_mTorr,RFPower_W,Bias_V,SF6_sccm,SiliconEtchRate,cmd_file,tdr_file,log_file,changes_observed,Trench_Depth,Top_CD,Mid_CD,Bottom_CD\n")
         
         for combo in combinations:
             run_id = combo["id"]
@@ -154,7 +182,21 @@ def collect_results(combinations):
             else:
                 changes = f"Etch depth changed due to etch rate scale (Rate={combo['SiliconEtchRate']})"
             
-            csv_file.write(f"{run_id},{combo['Pressure_mTorr']},{combo['RFPower_W']},{combo['Bias_V']},{combo['SF6_sccm']},{combo['SiliconEtchRate']},{cmd_dest_rel},{tdr_dest_rel},{log_dest_rel},{changes}\n")
+            # Parse depth and CD from log file
+            depth_val = ""
+            top_cd = ""
+            mid_cd = ""
+            bot_cd = ""
+            log_full = os.path.join(results_dir, f"OxideMaskedHighAspectRatioEtch_run_{run_id}.log")
+            if os.path.exists(log_full):
+                with open(log_full, 'r') as lf:
+                    log_content = lf.read()
+                depth_val = _parse_doe_value(log_content, 'Trench_Depth')
+                top_cd = _parse_layers_cd(log_content, '==LAYERS_TOP_CD==')
+                mid_cd = _parse_layers_cd(log_content, '==LAYERS_MID_CD==')
+                bot_cd = _parse_layers_cd(log_content, '==LAYERS_BOT_CD==')
+
+            csv_file.write(f"{run_id},{combo['Pressure_mTorr']},{combo['RFPower_W']},{combo['Bias_V']},{combo['SF6_sccm']},{combo['SiliconEtchRate']},{cmd_dest_rel},{tdr_dest_rel},{log_dest_rel},{changes},{depth_val},{top_cd},{mid_cd},{bot_cd}\n")
             
     print(f"Results successfully saved to CSV: {csv_path}")
 
