@@ -10,6 +10,9 @@ with the main branch, that will make filing PR a lot easier.
 4) While filing a new branch, also make sure to update the [task section](## Tasks) section below. No need to update the current state section.
 
 
+## How to run the script
+- since sentaurus is running in a remote machine, all scripts have to be run via sentaurus_automation.py using command ```poetry run python3 sentaurus_automation.py```
+- the changes related to which sentauris scripts (.cmd files) to run have to implemented in remote_task.sh since sentaurus_automation.py ultimately copies the script to remote machine and runs it
 -------------------------------------------------------------------------------------
 
 ## Current state
@@ -23,8 +26,9 @@ with the main branch, that will make filing PR a lot easier.
 Update this section each time a change is made
 
 ### Task 1 : 
-- [ ] Modify the paramters of the etching, like SF6 flow rate,  Bias power, Pressure and time to see if anything changes in the figure and save the results in csv file ( with value of each paramters changed and corresponding .cmd, .tdr and .log file)
-- [ ] With constant value of pressure, try different etch rates which range within 0.2 to 5 times the existing etching rate and add the same data in the csv files
+- [x] Modify the paramters of the OxideMaskedHighAspectRatioEtch.cmd etching, like SF6 flow rate,  Bias power, Pressure and list all of their combinations in a yaml or json file. 
+- [x] For each combination, create different versions of OxideMaskedHighAspectRatioEtch.cmd file and run them to see if anything changes in the figure and save the results in csv file ( with value of each paramters changed and corresponding .cmd, .tdr and .log file)
+- [x] With constant value of pressure, try different etch rates which range within 0.2 to 5 times the existing etching rate and add the same data in the csv files
 
 
 ### Task 2: 

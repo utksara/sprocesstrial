@@ -1,18 +1,17 @@
-[project]
+[tool.poetry]
 name = "sprocesstrial"
 version = "0.1.0"
 description = ""
-authors = [
-    {name = "Utkarsh",email = "saraswat.utk@gmail.com"}
-]
+authors = ["Utkarsh <saraswat.utk@gmail.com>"]
 readme = "README.md"
-requires-python = ">=3.12"
-dependencies = [
-    "paramiko (>=5.0.0,<6.0.0)",
-    "scp (>=0.15.0,<0.16.0)"
-]
+package-mode = false
 
+[tool.poetry.dependencies]
+python = "^3.8"
+paramiko = ">=3.0.0,<6.0.0"
+scp = "^0.15.0"
 
 [build-system]
-requires = ["poetry-core>=2.0.0,<3.0.0"]
+requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+

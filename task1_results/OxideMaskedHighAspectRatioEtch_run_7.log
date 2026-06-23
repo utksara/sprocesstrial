@@ -1,0 +1,235 @@
+
+                               Sentaurus Process 
+
+                  Version Y-2026.03 for linux64 - Feb 17, 2026
+          Changelist number: 10492911, Compile host: sce-tcad-5229-002
+
+                    Copyright (c) 1993 - 2026 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+      Inc.  This software may only be used in accordance with the terms and
+  conditions of a written license agreement with Synopsys, Inc.  All other use,
+   reproduction, or distribution of this software is strictly prohibited.  By
+   installing, accessing, using, or executing this software, you agree that it
+  will reside on, operate within, and have access to the computers and networks
+    where such software is used ("Host System"), and that Synopsys may access
+     components and data of the Host System as necessary for it to function
+ properly, to authenticate and validate license keys, to verify that it is used
+ only in conformity with the applicable license restrictions, and to communicate
+                 error messages and associated data to Synopsys.
+
+
+      Started at: Tue Jun 23 11:53:09 2026 (IST)
+       User name: utkarsh
+       Host name: localhost.localdomain
+             PID: 547728
+    Architecture: x86_64
+Operating system: Linux rel. 4.18.0-553.126.1.el8_10.x86_64 ver. #1 SMP Fri May 29 15:43:47 UTC 2026
+
+------------------------------------------------------------------------------
+Checking syntax of OxideMaskedHighAspectRatioEtch_run_7.cmd:
+
+Syntax check complete.
+------------------------------------------------------------------------------
+
+Starting Tcl interpreter with inputfile: OxideMaskedHighAspectRatioEtch_run_7.cmd
+        sprocess_all: Checked out 1 license(s) at Tue Jun 23 11:53:22 2026
+
+System total memory: 502 GB
+System available memory: 91 GB
+
+Loading models file: /opt/Synopsys/TCAD_2026.03/sentaurus/Y-2026.03//tcad/current/lib/sprocess/TclLib/SPROCESS.models... done.
+------------------------------------------------------------------- math -----
+math dimension= 3
+------------------------------------------------------------------------------
+------------------------------------------------------------------- line -----
+line X location= 0.00e+00<um> spacing= 0.100<um> tag= "Left"
+------------------------------------------------------------------------------
+------------------------------------------------------------------- line -----
+line X location= 1.00<um> spacing= 0.100<um> tag= "Right"
+------------------------------------------------------------------------------
+------------------------------------------------------------------- line -----
+line Y location= 0.00e+00<um> spacing= 0.100<um> tag= "Top"
+------------------------------------------------------------------------------
+------------------------------------------------------------------- line -----
+line Y location= 3.00<um> spacing= 0.100<um> tag= "Bottom"
+------------------------------------------------------------------------------
+------------------------------------------------------------------- line -----
+line Z location= 0.00e+00<um> spacing= 0.100<um> tag= "Front"
+------------------------------------------------------------------------------
+------------------------------------------------------------------- line -----
+line Z location= 1.00<um> spacing= 0.100<um> tag= "Back"
+------------------------------------------------------------------------------
+----------------------------------------------------------------- region -----
+region xlo= "Left" xhi= "Right" ylo= "Top" yhi= "Bottom" zlo= "Front" zhi= "Back" Silicon
+------------------------------------------------------------------------------
+------------------------------------------------------------------- init -----
+init
+------------------------------------------------------------------------------
+      sprocess2d_all: Checked out 1 license(s) at Tue Jun 23 11:53:24 2026
+
+      sprocess3d_all: Checked out 1 license(s) at Tue Jun 23 11:53:24 2026
+
+Creating structure...
+Recreating refinements to take into account updated simulation dimension.
+Done recreating refinements.
+
+
+Points: 11
+Nodes: 11
+Edges: 10
+Faces: 0
+Volumes: 0
+
+---------------------------------------------------------------- deposit -----
+deposit type= "isotropic" thickness= 0.200<um> material= {Oxide}
+------------------------------------------------------------------------------
+MGoals time: 0.0000e+00
+
+Updating sprocess mesh before Etch/Depo relax.
+Generating SnMesh mesh... 
+SnMesh time: 2.9820e-03
+
+========================  tri-grid quality (Gas excluded)  =======================
+    0  10  20  30  40  50  60  70  80  90 100 110 120 130 140 150 160 170 180
+ %   20   6                           6  46                                
+---------------------------------------------------------------------------------
+minAngle: 0.0744856  maxAngle: 90
+nVerts = 94  nTris = 92  nMats = 5
+max connectivity (tris per node): 3 [near (-0.262518 0)]
+bmin: 1 0
+bmax: -0.30002 0.000130002
+min edgeLength: 0.000130002  [near (-0.199232 6.5001e-05)]
+min volume: 3.80891e-08  max volume: 6.5001e-06  Total volume: 0.000156002
+bbox  volume: 0.000169005
+Are all boundaries on bbox? true
+=================================================================================
+
+Smallest region: Oxide_1  Total volume: 2.60001e-05
+Initializing sprocess...time: 7.4730e-03
+Interpolating...elapsed time: 0.01
+sprocess Pardiso thread count = 1
+sprocess parallel assembly thread count = 1
+Mechanics:         0s   to         1s   step    :         1s   temp: 26.9C->26.9C
+------------------------------------------------------------------- mask -----
+mask name= "trench" left= 0.350<um> right= 0.650<um> front= 0.350<um> back= 0.650<um>
+------------------------------------------------------------------------------
+------------------------------------------------------------------ photo -----
+photo mask= "trench" thickness= 0.600<um>
+------------------------------------------------------------------------------
+Increasing dimension 1 -> 3
+Creating structure... 
+Points: 1457
+Nodes: 1581
+Edges: 4336
+Faces: 2760
+Volumes: 0
+
+Copying data...done
+
+Creating structure... 
+Points: 16027
+Nodes: 17391
+Edges: 106866
+Faces: 172280
+Volumes: 82800
+
+Copying data...done
+
+Initializing boundary from bulk mesh...decimating...done.
+Recreating refinements to take into account updated simulation dimension.
+Done recreating refinements.
+
+------------------------------------------------------------------- etch -----
+etch type= "anisotropic" thickness= 0.250<um> material= {Oxide}
+------------------------------------------------------------------------------
+MGoals time: 0.0465481
+
+Updating sprocess mesh before Etch/Depo relax.
+Generating SnMesh mesh... 
+Smallest region: Gas_1  Total volume: 0.372066
+SnMesh time: 2.57636
+Initializing sprocess...time: 0.561996
+Interpolating...elapsed time: 0.72
+sprocess ILS thread count = 1
+Mechanics:         0s   to         1s   step    :         1s   temp: 26.9C->26.9C
+
+------------------------------------------------------------------ strip -----
+strip Photoresist
+------------------------------------------------------------------------------
+------------------------------------------------------------------- etch -----
+etch time= 8.00<min> rate= {0.175<um/min>} type= "anisotropic" material= {Silicon}
+------------------------------------------------------------------------------
+MGoals time: 0.0558722
+
+Updating sprocess mesh before Etch/Depo relax.
+Generating SnMesh mesh... 
+Smallest region: Oxide_1  Total volume: 0.581994
+SnMesh time: 2.762
+Initializing sprocess...time: 0.455863
+Interpolating...elapsed time: 0.35
+Mechanics:         0s   to         1s   step    :         1s   temp: 26.9C->26.9C
+
+----------------------------------------------------------------- struct -----
+struct tdr= "OxideMaskedHighAspectRatioEtch_run_7"
+------------------------------------------------------------------------------
+Points: 6700
+Nodes: 8556
+Edges: 47595
+Faces: 72728
+Volumes: 33688
+
+Saving Delaunay-Voronoi weights.
+Writing file OxideMaskedHighAspectRatioEtch_run_7_fps.tdr...done
+
+------------------------------------------------------------------------------
+License features used:
+    sprocess_all
+    sprocess2d_all
+    sprocess3d_all
+------------------------------------------------------------------------------
+
+Peak memory usage: 1021 MB
+
+------------------------------------------------------------------------------
+
+Elapsed Time:	00:00:38
+User Time:	00:00:18
+CPU Time:	00:00:17
+
+Detailed CPU time report:
+
+5.33 sec (35.7%) SnMesh meshing (3 calls).
+1.68 sec (11.2%) etch command (2 calls).
+1.03 sec (6.9%) Bulk Interpolation (3 calls).
+1.01 sec (6.8%) Other Program Parts (1 calls).
+0.97 sec (6.5%) newDim (1 calls).
+0.94 sec (6.3%) Transfer from mesher 3D (2 calls).
+0.83 sec (5.5%) struct command (1 calls).
+0.57 sec (3.8%) Solver(Mechanics) (3 calls).
+0.55 sec (3.7%) implant command (333 calls).
+0.54 sec (3.6%) FieldServer copy (3 calls).
+0.43 sec (2.8%) Mechanics assembly (serial mode) (3 calls).
+0.21 sec (1.4%) mater command (108 calls).
+0.15 sec (1.0%) reaction command (68 calls).
+0.12 sec (0.8%) photo command (1 calls).
+0.12 sec (0.8%) Mechanics preassembly (3 calls).
+0.11 sec (0.7%) MakeInterfaces (8 calls).
+
+Detailed elapsed time report:
+
+5.26 sec (35.2%) SnMesh meshing (3 calls).
+1.69 sec (11.3%) etch command (2 calls).
+1.04 sec (6.9%) Bulk Interpolation (3 calls).
+1.02 sec (6.8%) Other Program Parts (1 calls).
+0.97 sec (6.5%) newDim (1 calls).
+0.94 sec (6.3%) Transfer from mesher 3D (2 calls).
+0.83 sec (5.6%) struct command (1 calls).
+0.58 sec (3.9%) Solver(Mechanics) (3 calls).
+0.55 sec (3.7%) implant command (333 calls).
+0.54 sec (3.6%) FieldServer copy (3 calls).
+0.43 sec (2.9%) Mechanics assembly (serial mode) (3 calls).
+0.21 sec (1.4%) mater command (108 calls).
+0.15 sec (1.0%) reaction command (68 calls).
+0.12 sec (0.8%) photo command (1 calls).
+0.12 sec (0.8%) Mechanics preassembly (3 calls).
+0.11 sec (0.7%) MakeInterfaces (8 calls).

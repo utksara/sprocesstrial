@@ -68,8 +68,7 @@ def main():
         print(f"[SSH] Executing script: {remote_script_path} ...")
         
         
-        stdin, stdout, stderr = ssh.exec_command(f"cd {REMOTE_TARGET_DIR}")
-        # stdin, stdout, stderr = ssh.exec_command(f"cd {REMOTE_TARGET_DIR} && {remote_script_path}")
+        stdin, stdout, stderr = ssh.exec_command(f"cd {REMOTE_TARGET_DIR} && {remote_script_path}")
         
         # Wait for the script to finish and print output
         exit_status = stdout.channel.recv_exit_status() 

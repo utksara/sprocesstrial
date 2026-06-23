@@ -1,0 +1,83 @@
+[
+  {
+    "id": 1,
+    "Pressure_mTorr": 10,
+    "RFPower_W": 500,
+    "Bias_V": 250,
+    "SF6_sccm": 80,
+    "SiliconEtchRate": 0.35,
+    "description": "Baseline recipe"
+  },
+  {
+    "id": 2,
+    "Pressure_mTorr": 15,
+    "RFPower_W": 600,
+    "Bias_V": 300,
+    "SF6_sccm": 100,
+    "SiliconEtchRate": 0.35,
+    "description": "High pressure, high power recipe"
+  },
+  {
+    "id": 3,
+    "Pressure_mTorr": 20,
+    "RFPower_W": 400,
+    "Bias_V": 200,
+    "SF6_sccm": 60,
+    "SiliconEtchRate": 0.35,
+    "description": "Low power, low SF6 recipe"
+  },
+  {
+    "id": 4,
+    "Pressure_mTorr": 10,
+    "RFPower_W": 600,
+    "Bias_V": 200,
+    "SF6_sccm": 100,
+    "SiliconEtchRate": 0.35,
+    "description": "High power, low bias, high SF6 recipe"
+  },
+  {
+    "id": 5,
+    "Pressure_mTorr": 20,
+    "RFPower_W": 500,
+    "Bias_V": 300,
+    "SF6_sccm": 80,
+    "SiliconEtchRate": 0.35,
+    "description": "High pressure, high bias recipe"
+  },
+  {
+    "id": 6,
+    "Pressure_mTorr": 10,
+    "RFPower_W": 500,
+    "Bias_V": 250,
+    "SF6_sccm": 80,
+    "SiliconEtchRate": 0.07,
+    "description": "0.2x etch rate variation"
+  },
+  {
+    "id": 7,
+    "Pressure_mTorr": 10,
+    "RFPower_W": 500,
+    "Bias_V": 250,
+    "SF6_sccm": 80,
+    "SiliconEtchRate": 0.175,
+    "description": "0.5x etch rate variation"
+  },
+  {
+    "id": 8,
+    "Pressure_mTorr": 10,
+    "RFPower_W": 500,
+    "Bias_V": 250,
+    "SF6_sccm": 80,
+    "SiliconEtchRate": 0.70,
+    "description": "2.0x etch rate variation"
+  },
+  {
+    "id": 9,
+    "Pressure_mTorr": 10,
+    "RFPower_W": 500,
+    "Bias_V": 250,
+    "SF6_sccm": 80,
+    "SiliconEtchRate": 1.75,
+    "description": "5.0x etch rate variation"
+  }
+]
