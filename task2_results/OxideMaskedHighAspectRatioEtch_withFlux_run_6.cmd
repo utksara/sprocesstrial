@@ -2,15 +2,15 @@
 # Sentaurus Process - Calibrated Flux-Based Bosch Approximation
 # =====================================================================
 
-math dimension=3
+math dimension=2
 
 # ---------------------------------------------------------------------
 # Reactor Conditions (for documentation/calibration)
 # ---------------------------------------------------------------------
 
-set Pressure_mTorr 15
-set ICPPower_W     1000
-set Bias_V         120
+set Pressure_mTorr 10
+set ICPPower_W 500
+set Bias_V 250
 
 set SF6_Flux       8.0e17
 set IonFlux        2.0e16
@@ -25,26 +25,24 @@ set C4F8_Flux      1.5e17
 # reactor simulation, or experiment.
 # ---------------------------------------------------------------------
 
-set PolymerDepRate 0.015
-set SiliconEtchRate 0.45
+set PolymerDepRate 0.01
+set SiliconEtchRate 0.5387
 
 set DepTime 2.0
 set EtchTime 5.0
 
-set NumCycles 5
+set NumCycles 10
 
 # ---------------------------------------------------------------------
 # Mesh
 # ---------------------------------------------------------------------
 
-line x location=0.0 spacing=0.02 tag=Left
-line x location=1.0 spacing=0.02 tag=Right
+line x location=0.0 spacing=0.1 tag=Left
+line x location=1.0 spacing=0.1 tag=Right
 
-line y location=0.0 spacing=0.02 tag=Top
-line y location=5.0 spacing=0.02 tag=Bottom
+line y location=0.0 spacing=0.1 tag=Top
+line y location=5.0 spacing=0.1 tag=Bottom
 
-line z location=0.0 spacing=0.02 tag=Front
-line z location=1.0 spacing=0.02 tag=Back
 
 # ---------------------------------------------------------------------
 # Silicon Region
@@ -52,8 +50,7 @@ line z location=1.0 spacing=0.02 tag=Back
 
 region Silicon \
     xlo=Left xhi=Right \
-    ylo=Top yhi=Bottom \
-    zlo=Front zhi=Back
+    ylo=Top yhi=Bottom 
 
 init
 
@@ -66,8 +63,7 @@ deposit material=Oxide \
     thickness=0.20
 
 mask name=via \
-    left=0.45 right=0.55 \
-    front=0.45 back=0.55
+    left=0.45 right=0.55 
 
 photo mask=via thickness=0.5
 
@@ -106,4 +102,4 @@ for {set cycle 1} {$cycle <= $NumCycles} {incr cycle} {
 # Save Final Geometry
 # ---------------------------------------------------------------------
 
-struct tdr=flux_based_drie_out
+struct tdr=OxideMaskedHighAspectRatioEtch_withFlux_run_6

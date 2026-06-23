@@ -32,9 +32,9 @@ Update this section each time a change is made
 
 
 ### Task 2: 
-- [ ] Determine etch rate just with Flow rate of SF6, Bias power, Pressure without having to specify it explicitly and save it in the csv file as before
-- [ ]Go through the OxideMaskedHighAspectRatioEtch_withFlux.cmd and see what is common and different between this file and OxideMaskedHighAspectRatioEtch.cmd  (for example here the silicon etch rate is specified, while in the previous file a rate parameters is specified in the etch section is specified)
-- [ ] vary the etching time and etchign cycles (try upto 20 etching cycles) and record the data in the csv file
+- [x] Determine etch rate just with Flow rate of SF6, Bias power, Pressure without having to specify it explicitly and save it in the csv file as before
+- [x] Go through the OxideMaskedHighAspectRatioEtch_withFlux.cmd and see what is common and different between this file and OxideMaskedHighAspectRatioEtch.cmd  (for example here the silicon etch rate is specified, while in the previous file a rate parameters is specified in the etch section is specified)
+- [x] vary the etching time and etchign cycles (try upto 20 etching cycles) and record the data in the csv file
 
 ### Task 3:
 - [ ] In the current code there is no way to measure how much depth and widht has been achieved, use

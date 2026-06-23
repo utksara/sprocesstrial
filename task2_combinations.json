@@ -1,0 +1,86 @@
+[
+  {
+    "id": 1,
+    "Pressure_mTorr": 10,
+    "RFPower_W": 500,
+    "Bias_V": 250,
+    "SF6_sccm": 80,
+    "C4F8_sccm": 100,
+    "EtchTime": 5.0,
+    "DepTime": 2.0,
+    "NumCycles": 5,
+    "description": "Task 2 Baseline cyclic recipe"
+  },
+  {
+    "id": 2,
+    "Pressure_mTorr": 10,
+    "RFPower_W": 500,
+    "Bias_V": 250,
+    "SF6_sccm": 120,
+    "C4F8_sccm": 100,
+    "EtchTime": 5.0,
+    "DepTime": 2.0,
+    "NumCycles": 5,
+    "description": "High SF6 flow rate (increased chemical etching)"
+  },
+  {
+    "id": 3,
+    "Pressure_mTorr": 10,
+    "RFPower_W": 800,
+    "Bias_V": 350,
+    "SF6_sccm": 80,
+    "C4F8_sccm": 100,
+    "EtchTime": 5.0,
+    "DepTime": 2.0,
+    "NumCycles": 5,
+    "description": "High Bias power and voltage (increased ion-assisted etching)"
+  },
+  {
+    "id": 4,
+    "Pressure_mTorr": 20,
+    "RFPower_W": 500,
+    "Bias_V": 250,
+    "SF6_sccm": 80,
+    "C4F8_sccm": 100,
+    "EtchTime": 5.0,
+    "DepTime": 2.0,
+    "NumCycles": 5,
+    "description": "High pressure recipe"
+  },
+  {
+    "id": 5,
+    "Pressure_mTorr": 10,
+    "RFPower_W": 500,
+    "Bias_V": 250,
+    "SF6_sccm": 80,
+    "C4F8_sccm": 100,
+    "EtchTime": 8.0,
+    "DepTime": 2.0,
+    "NumCycles": 5,
+    "description": "Extended etching time per cycle"
+  },
+  {
+    "id": 6,
+    "Pressure_mTorr": 10,
+    "RFPower_W": 500,
+    "Bias_V": 250,
+    "SF6_sccm": 80,
+    "C4F8_sccm": 100,
+    "EtchTime": 5.0,
+    "DepTime": 2.0,
+    "NumCycles": 10,
+    "description": "Varying cycles: 10 cycles"
+  },
+  {
+    "id": 7,
+    "Pressure_mTorr": 10,
+    "RFPower_W": 500,
+    "Bias_V": 250,
+    "SF6_sccm": 80,
+    "C4F8_sccm": 100,
+    "EtchTime": 5.0,
+    "DepTime": 2.0,
+    "NumCycles": 20,
+    "description": "Varying cycles: 20 cycles"
+  }
+]

@@ -1,1 +1,33 @@
+# Logs and temporary execution files
+*.log
+*.log.BAK
+**/*.log
+**/*.log.BAK
+log_*
 /log_*
+poetry-installer-error-*.log
+
+# TCAD / Sentaurus binary output files
+*.tdr
+**/*.tdr
+
+# Python specific files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+.poetry/
+
+# Temporary installer files
+get-pip.py
+
+# Generated visual output files
+output.svg
+*.png
+**/*.png
+
+# IDE and System files
+.vscode/
+.idea/
+.DS_Store
