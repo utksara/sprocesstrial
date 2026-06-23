@@ -36,8 +36,21 @@ Update this section each time a change is made
 - [x] Go through the OxideMaskedHighAspectRatioEtch_withFlux.cmd and see what is common and different between this file and OxideMaskedHighAspectRatioEtch.cmd  (for example here the silicon etch rate is specified, while in the previous file a rate parameters is specified in the etch section is specified)
 - [x] vary the etching time and etchign cycles (try upto 20 etching cycles) and record the data in the csv file
 
+### Task 2.5:
+- [x] In the current result csv files for task 1 and task 2, go through .log file of each row, parse the relevent information from it which includes 
+    - Substrate Geometry (X, Y, Z dimensions)
+    - Oxide thickness deposited (Oxide Deposition Before Etch)
+    - Mask opening Geometry 
+    - etch type, requested depth and material etched
+    - Photoresist thickness
+    - Deposited vs Etched Thickness 
+    - etch depth calculated calculated using Deposited - Etched Thickness
+    - Nodes and Volumes after etching
+    - Smallest Region After Etch and it's volume
+- [x] add these news columns to same csv files of task 1 and task 2
+
 ### Task 3:
-- [ ] In the current code there is no way to measure how much depth and widht has been achieved, use
+- [ ] In the current code there is no way to measure how much depth and width has been achieved, use
 .tdr and .log files find a way to extract depth and other dimension in the etching profile
 - [ ] In the csv file worked before, record the depth and bottom CD, top CD and mid CD in the etching profile
 
