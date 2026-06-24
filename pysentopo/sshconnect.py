@@ -3,17 +3,6 @@ import time
 import paramiko
 from scp import SCPClient # Optional, but we can use Paramiko's built-in SFTP for standard copying
 
-
-# --- CONFIGURATION ---
-REMOTE_HOST = "10.114.1.79"
-REMOTE_USER = "utkarsh"
-REMOTE_PASS = "user123$"  # Or use pkey for SSH keys
-REMOTE_TARGET_DIR = "/home/utkarsh/sentaurus"
-
-LOCAL_FOLDER_TO_COPY = "./boschProcess"
-BASH_SCRIPT_NAME = "remote_task.sh"
-# ---------------------
-
 def create_local_log_dir():
     """Creates a new folder log_timestamp in the current directory"""
     timestamp = time.strftime("%Y%m%d-%H%M%S")
