@@ -5,6 +5,27 @@ import glob
 import shutil
 import subprocess
 
+def _parse_doe_value(log_content, name):
+    match = re.search(rf'DOE:\s*{name}\s+(\S+)', log_content)
+    return match.group(1) if match else ""
+
+def _parse_layers_cd(log_content, section_name):
+    # Find block of log_content between section_name and the next header/end
+    pattern = rf'{section_name}(.*?)(?:==LAYERS_|$)'
+    match = re.search(pattern, log_content, re.DOTALL)
+    if not match:
+        return ""
+    
+    block = match.group(1)
+    
+    for line in block.split('\n'):
+        if 'gas' in line.lower():
+            numbers = re.findall(r'[-+]?\d+\.?\d*(?:[eE][+-]?\d+)?', line)
+            if len(numbers) >= 2:
+                floats = [float(n) for n in numbers]
+                return f"{round(floats[1] - floats[0], 6)}"
+    return ""
+
 def load_combinations():
     with open("task1_combinations.json", "r") as f:
         return json.load(f)
@@ -44,21 +65,21 @@ def generate_cmd_files(combinations):
         etch_time = 8.0
         measurement_code = f'''
 # === Task 3 Measurements (depth and CD) ===
-select z=1
-set depth_calc [expr {{$SiliconEtchRate * {etch_time}}}]
+select z=0.5
+set depth_calc [expr {{ {combo['SiliconEtchRate']} * {etch_time} }}]
 puts "DOE: Trench_Depth [format %.6f $depth_calc]"
 set mid_y [expr {{$depth_calc / 2.0}}]
 set bot_y [expr {{$depth_calc - 0.05}}]
 puts "==LAYERS_TOP_CD=="
-layers x=0.05
+layers y=0.05 z=0.5
 puts "==LAYERS_MID_CD=="
-layers x=$mid_y
+layers y=$mid_y z=0.5
 if {{ $bot_y > 0.05 }} {{
     puts "==LAYERS_BOT_CD=="
-    layers x=$bot_y
+    layers y=$bot_y z=0.5
 }} else {{
     puts "==LAYERS_BOT_CD=="
-    layers x=0.05
+    layers y=0.05 z=0.5
 }}
 puts "==LAYERS_END=="
 '''
@@ -97,7 +118,7 @@ rm -f tdrs/*
     for combo in combinations:
         run_id = combo["id"]
         sh_content += f'echo "Running OxideMaskedHighAspectRatioEtch_run_{run_id}.cmd..."\n'
-        sh_content += f'timeout 120s sprocess OxideMaskedHighAspectRatioEtch_run_{run_id}.cmd\n'
+        sh_content += f'timeout 120s sprocess OxideMaskedHighAspectRatioEtch_run_{run_id}.cmd > OxideMaskedHighAspectRatioEtch_run_{run_id}.log 2>&1\n'
         sh_content += f'if [ -f "OxideMaskedHighAspectRatioEtch_run_{run_id}.log" ]; then\n'
         sh_content += f'    mv "OxideMaskedHighAspectRatioEtch_run_{run_id}.log" logs/\n'
         sh_content += f'fi\n'
@@ -138,7 +159,7 @@ def collect_results(combinations):
     
     # Copy cmd files to task1_results and write csv
     with open(csv_path, "w") as csv_file:
-        csv_file.write("id,Pressure_mTorr,RFPower_W,Bias_V,SF6_sccm,SiliconEtchRate,cmd_file,tdr_file,log_file,changes_observed,Trench_Depth,Top_CD,Mid_CD,Bottom_CD\n")
+        csv_file.write("id,Pressure_(mTorr),RF_Power_(W),Bias_Voltage_(V),SF6_Flow_(sccm),Silicon_Etch_Rate_(um/min),cmd_file,tdr_file,log_file,changes_observed,Trench_Depth_(um),Top_CD_(um),Mid_CD_(um),Bottom_CD_(um)\n")
         
         for combo in combinations:
             run_id = combo["id"]

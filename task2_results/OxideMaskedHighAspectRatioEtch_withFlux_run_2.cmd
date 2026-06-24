@@ -12,11 +12,11 @@ set Pressure_mTorr 10
 set ICPPower_W 500
 set Bias_V 250
 
-set SF6_Flux       8.0e17
-set IonFlux        2.0e16
-set IonEnergy_eV   120
+set SF6_Flux       1.2e+18
+set IonFlux        2.0e+16
+set IonEnergy_eV   250
 
-set C4F8_Flux      1.5e17
+set C4F8_Flux      1.5e+17
 
 # ---------------------------------------------------------------------
 # Convert Physical Fluxes -> Effective Process Parameters

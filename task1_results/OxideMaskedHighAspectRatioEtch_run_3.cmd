@@ -32,4 +32,22 @@ strip PhotoResist
 
 etch material=Silicon type=anisotropic rate=0.35 time=8
 
+# === Task 3 Measurements (depth and CD) ===
+select z=0.5
+set depth_calc [expr { 0.35 * 8.0 }]
+puts "DOE: Trench_Depth [format %.6f $depth_calc]"
+set mid_y [expr {$depth_calc / 2.0}]
+set bot_y [expr {$depth_calc - 0.05}]
+puts "==LAYERS_TOP_CD=="
+layers y=0.05 z=0.5
+puts "==LAYERS_MID_CD=="
+layers y=$mid_y z=0.5
+if { $bot_y > 0.05 } {
+    puts "==LAYERS_BOT_CD=="
+    layers y=$bot_y z=0.5
+} else {
+    puts "==LAYERS_BOT_CD=="
+    layers y=0.05 z=0.5
+}
+puts "==LAYERS_END=="
 struct tdr=OxideMaskedHighAspectRatioEtch_run_3

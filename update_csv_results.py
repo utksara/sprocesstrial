@@ -113,18 +113,18 @@ def parse_log(filepath):
     
     return {
         "Substrate Geometry": substrate_geometry,
-        "Oxide thickness deposited": oxide_thickness,
+        "Oxide_thickness_deposited_(um)": oxide_thickness,
         "Mask opening Geometry": mask_geometry,
         "Etch type": silicon_etch_type,
-        "Requested depth": silicon_etch_depth,
+        "Requested_depth_(um)": silicon_etch_depth,
         "Material etched": "Silicon",
-        "Photoresist thickness": pr_thickness,
+        "Photoresist_thickness_(um)": pr_thickness,
         "Deposited vs Etched Thickness": deposited_vs_etched,
-        "Etch depth calculated": round(calculated_silicon_depth, 6),
+        "Etch_depth_calculated_(um)": round(calculated_silicon_depth, 6),
         "Nodes": nodes,
         "Volumes": volumes,
         "Smallest Region": smallest_region,
-        "Smallest Volume": smallest_volume
+        "Smallest_Volume_(um2_or_um3)": smallest_volume
     }
 
 def update_csv(csv_path):
@@ -139,35 +139,67 @@ def update_csv(csv_path):
         for row in reader:
             rows.append(row)
             
+    # Define rename mapping for older headers (if present)
+    rename_map = {
+        "Pressure_mTorr": "Pressure_(mTorr)",
+        "RFPower_W": "RF_Power_(W)",
+        "Bias_V": "Bias_Voltage_(V)",
+        "SF6_sccm": "SF6_Flow_(sccm)",
+        "C4F8_sccm": "C4F8_Flow_(sccm)",
+        "SiliconEtchRate": "Silicon_Etch_Rate_(um/s)" if "task2" in csv_path else "Silicon_Etch_Rate_(um/min)",
+        "PolymerDepRate": "Polymer_Dep_Rate_(um/s)",
+        "EtchTime": "Etch_Time_(s)",
+        "DepTime": "Dep_Time_(s)",
+        "NumCycles": "Num_Cycles",
+        "Trench_Depth": "Trench_Depth_(um)",
+        "Top_CD": "Top_CD_(um)",
+        "Mid_CD": "Mid_CD_(um)",
+        "Bottom_CD": "Bottom_CD_(um)"
+    }
+    
+    # Apply header renaming to existing fields
+    updated_fieldnames = []
+    for f in fieldnames:
+        new_f = rename_map.get(f, f)
+        if new_f not in updated_fieldnames:
+            updated_fieldnames.append(new_f)
+            
+    # Remap keys in existing rows
+    remapped_rows = []
+    for row in rows:
+        new_row = {}
+        for k, v in row.items():
+            new_row[rename_map.get(k, k)] = v
+        remapped_rows.append(new_row)
+        
     # New fields to add
     new_fields = [
-        "Substrate Geometry", "Oxide thickness deposited", "Mask opening Geometry",
-        "Etch type", "Requested depth", "Material etched", "Photoresist thickness",
-        "Deposited vs Etched Thickness", "Etch depth calculated", "Nodes", "Volumes",
-        "Smallest Region", "Smallest Volume"
+        "Substrate Geometry", "Oxide_thickness_deposited_(um)", "Mask opening Geometry",
+        "Etch type", "Requested_depth_(um)", "Material etched", "Photoresist_thickness_(um)",
+        "Deposited vs Etched Thickness", "Etch_depth_calculated_(um)", "Nodes", "Volumes",
+        "Smallest Region", "Smallest_Volume_(um2_or_um3)"
     ]
     
-    # Find all new fields that aren't already in fieldnames
-    fields_to_add = [f for f in new_fields if f not in fieldnames]
-    updated_fieldnames = fieldnames + fields_to_add
+    # Find all new fields that aren't already in updated_fieldnames
+    fields_to_add = [f for f in new_fields if f not in updated_fieldnames]
+    updated_fieldnames = updated_fieldnames + fields_to_add
     
-    updated_rows = []
-    for row in rows:
-        log_path = row["log_file"]
-        # In case the path starts with task1_results/ or task2_results/
+    final_rows = []
+    for row in remapped_rows:
+        log_path = row.get("log_file")
         parsed_data = parse_log(log_path)
         if parsed_data:
-            for field in fields_to_add:
+            for field in new_fields:
                 row[field] = parsed_data[field]
         else:
-            for field in fields_to_add:
+            for field in new_fields:
                 row[field] = "N/A"
-        updated_rows.append(row)
+        final_rows.append(row)
         
     with open(csv_path, 'w', newline='') as f:
         writer = csv.DictWriter(f, fieldnames=updated_fieldnames)
         writer.writeheader()
-        writer.writerows(updated_rows)
+        writer.writerows(final_rows)
         
     print(f"Successfully updated CSV: {csv_path}")
 

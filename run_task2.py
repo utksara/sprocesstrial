@@ -47,6 +47,17 @@ def generate_cmd_files(combinations):
         content = re.sub(r"set ICPPower_W\s+\d+", f"set ICPPower_W {combo['RFPower_W']}", content)
         content = re.sub(r"set Bias_V\s+\d+", f"set Bias_V {combo['Bias_V']}", content)
         
+        # Replace fluxes
+        sf6_flux = combo['SF6_sccm'] * 1.0e16 * (combo['Pressure_mTorr'] / 10.0)
+        c4f8_flux = combo['C4F8_sccm'] * 1.5e15 * (combo['Pressure_mTorr'] / 10.0)
+        ion_flux = combo['RFPower_W'] * 4.0e13
+        ion_energy = combo['Bias_V']
+        
+        content = re.sub(r"set SF6_Flux\s+\S+", f"set SF6_Flux       {sf6_flux:.1e}", content)
+        content = re.sub(r"set C4F8_Flux\s+\S+", f"set C4F8_Flux      {c4f8_flux:.1e}", content)
+        content = re.sub(r"set IonFlux\s+\S+", f"set IonFlux        {ion_flux:.1e}", content)
+        content = re.sub(r"set IonEnergy_eV\s+\d+", f"set IonEnergy_eV   {ion_energy}", content)
+        
         # Replace calculated rate settings
         content = re.sub(r"set PolymerDepRate\s+[\d\.]+", f"set PolymerDepRate {polymer_dep_rate}", content)
         content = re.sub(r"set SiliconEtchRate\s+[\d\.]+", f"set SiliconEtchRate {silicon_etch_rate}", content)
@@ -140,11 +151,25 @@ def collect_results(combinations):
     csv_path = os.path.join(results_dir, "simulation_results.csv")
     
     with open(csv_path, "w") as csv_file:
-        csv_file.write("id,Pressure_mTorr,RFPower_W,Bias_V,SF6_sccm,C4F8_sccm,SiliconEtchRate,PolymerDepRate,EtchTime,DepTime,NumCycles,cmd_file,tdr_file,log_file,description\n")
+        # Renamed headers with units
+        headers = [
+            "id", "Pressure_(mTorr)", "RF_Power_(W)", "Bias_Voltage_(V)",
+            "SF6_Flow_(sccm)", "C4F8_Flow_(sccm)", 
+            "SF6_Flux_(10e15_cm-2_s-1)", "C4F8_Flux_(10e15_cm-2_s-1)", "Ion_Flux_(10e15_cm-2_s-1)",
+            "Silicon_Etch_Rate_(um/s)", "Polymer_Dep_Rate_(um/s)", 
+            "Etch_Time_(s)", "Dep_Time_(s)", "Num_Cycles",
+            "cmd_file", "tdr_file", "log_file", "description"
+        ]
+        csv_file.write(",".join(headers) + "\n")
         
         for combo in combinations:
             run_id = combo["id"]
             silicon_etch_rate, polymer_dep_rate = calculate_rates(combo)
+            
+            # Calculate fluxes in 10e15 units (e.g. 8.0e17 is 800 * 10e15)
+            sf6_flux_10e15 = int((combo['SF6_sccm'] * 1.0e16 * (combo['Pressure_mTorr'] / 10.0)) / 1.0e15)
+            c4f8_flux_10e15 = int((combo['C4F8_sccm'] * 1.5e15 * (combo['Pressure_mTorr'] / 10.0)) / 1.0e15)
+            ion_flux_10e15 = int((combo['RFPower_W'] * 4.0e13) / 1.0e15)
             
             # Paths
             cmd_src = f"boschProcess/OxideMaskedHighAspectRatioEtch_withFlux_run_{run_id}.cmd"
@@ -176,7 +201,27 @@ def collect_results(combinations):
             else:
                 tdr_dest_rel = "Not Found"
             
-            csv_file.write(f"{run_id},{combo['Pressure_mTorr']},{combo['RFPower_W']},{combo['Bias_V']},{combo['SF6_sccm']},{combo['C4F8_sccm']},{silicon_etch_rate},{polymer_dep_rate},{combo['EtchTime']},{combo['DepTime']},{combo['NumCycles']},{cmd_dest_rel},{tdr_dest_rel},{log_dest_rel},{combo['description']}\n")
+            row_values = [
+                str(run_id),
+                str(combo['Pressure_mTorr']),
+                str(combo['RFPower_W']),
+                str(combo['Bias_V']),
+                str(combo['SF6_sccm']),
+                str(combo['C4F8_sccm']),
+                str(sf6_flux_10e15),
+                str(c4f8_flux_10e15),
+                str(ion_flux_10e15),
+                str(silicon_etch_rate),
+                str(polymer_dep_rate),
+                str(combo['EtchTime']),
+                str(combo['DepTime']),
+                str(combo['NumCycles']),
+                cmd_dest_rel,
+                tdr_dest_rel,
+                log_dest_rel,
+                combo['description']
+            ]
+            csv_file.write(",".join(row_values) + "\n")
             
     print(f"Results successfully saved to CSV: {csv_path}")
 
