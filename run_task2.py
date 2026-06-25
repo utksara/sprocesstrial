@@ -72,6 +72,8 @@ def generate_cmd_files(combinations):
         content = re.sub(r"line z location=.* spacing=.* tag=.*\n", "", content)
         content = re.sub(r"\\\s+zlo=Front\s+zhi=Back", "", content)
         content = re.sub(r"\\\s+front=0.45\s+back=0.55", "", content)
+        content = content.replace("select z=0.5\n", "")
+        content = content.replace(" z=0.5", "")
         
         # Replace mesh spacing to 0.1 for fast execution
         content = re.sub(r"spacing=\S+", "spacing=0.1", content)
@@ -129,7 +131,7 @@ rm -f tdrs/*
 
 def run_automation_script():
     print("Running sentaurus_automation.py...")
-    result = subprocess.run(["poetry", "run", "python3", "sentaurus_automation.py"], capture_output=True, text=True)
+    result = subprocess.run(["poetry", "run", "python3", "sentaurus_automation.py", "./boschProcess"], capture_output=True, text=True)
     print(result.stdout)
     if result.returncode != 0:
         print("Error during execution:")

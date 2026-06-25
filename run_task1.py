@@ -134,7 +134,7 @@ rm -f tdrs/*
 
 def run_automation_script():
     print("Running sentaurus_automation.py...")
-    result = subprocess.run(["poetry", "run", "python3", "sentaurus_automation.py"], capture_output=True, text=True)
+    result = subprocess.run(["poetry", "run", "python3", "sentaurus_automation.py", "./boschProcess"], capture_output=True, text=True)
     print(result.stdout)
     if result.returncode != 0:
         print("Error during execution:")

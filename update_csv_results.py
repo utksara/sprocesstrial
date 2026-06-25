@@ -1,6 +1,7 @@
 import os
 import csv
 import re
+from pysentopo import extract_depth_and_width
 
 def parse_log(filepath):
     if not os.path.exists(filepath):
@@ -112,28 +113,11 @@ def parse_log(filepath):
     calculated_silicon_depth = silicon_etch_depth + over_etch
     
     # Trench Depth and CD values from Task 3
-    trench_depth = ""
-    td_match = re.search(r'DOE:\s*Trench_Depth\s+(\S+)', content)
-    if td_match:
-        trench_depth = float(td_match.group(1))
-        
-    def get_cd(section_name):
-        pattern = rf'{section_name}(.*?)(?:==LAYERS_|$)'
-        match = re.search(pattern, content, re.DOTALL)
-        if not match:
-            return ""
-        block = match.group(1)
-        for line in block.split('\n'):
-            if 'gas' in line.lower():
-                numbers = re.findall(r'[-+]?\d+\.?\d*(?:[eE][+-]?\d+)?', line)
-                if len(numbers) >= 2:
-                    floats = [float(n) for n in numbers]
-                    return round(floats[1] - floats[0], 6)
-        return ""
-        
-    top_cd = get_cd('==LAYERS_TOP_CD==')
-    mid_cd = get_cd('==LAYERS_MID_CD==')
-    bot_cd = get_cd('==LAYERS_BOT_CD==')
+    geom_data = extract_depth_and_width(filepath) or {}
+    trench_depth = geom_data.get("Trench_Depth", "")
+    top_cd = geom_data.get("Top_CD", "")
+    mid_cd = geom_data.get("Mid_CD", "")
+    bot_cd = geom_data.get("Bottom_CD", "")
     
     return {
         "Substrate Geometry": substrate_geometry,
@@ -155,7 +139,10 @@ def parse_log(filepath):
         "Bottom_CD_(um)": bot_cd
     }
 
-def update_csv(csv_path):
+# modify the function such that it also takes log_path as an input
+def update_csv(csv_path, log_path):
+    
+    # task : utilize extract_depth_and_width(log_filepath) from pysentopo/visualization.py to fill currently blank values of Trench_Depth_(um)	Top_CD_(um)	Mid_CD_(um)	Bottom_CD_(um
     if not os.path.exists(csv_path):
         print(f"CSV not found: {csv_path}")
         return
@@ -215,7 +202,7 @@ def update_csv(csv_path):
     
     final_rows = []
     for row in remapped_rows:
-        log_path = row.get("log_file")
+        # log_path = row.get("log_file")
         parsed_data = parse_log(log_path)
         if parsed_data:
             for field in new_fields:
@@ -233,5 +220,5 @@ def update_csv(csv_path):
     print(f"Successfully updated CSV: {csv_path}")
 
 if __name__ == "__main__":
-    update_csv("task1_results/simulation_results.csv")
-    update_csv("task2_results/simulation_results.csv")
+    # update_csv("task1_results/simulation_results.csv", 'log_20260624-144602/logs/OxideMaskedHighAspectRatioEtch_run_1.log')
+    update_csv("task2_results/simulation_results.csv", 'log_20260625-131100/logs/ OxideMaskedHighAspectRatioEtch_withFlux_run_2.log')

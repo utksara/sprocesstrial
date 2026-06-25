@@ -102,8 +102,23 @@ for {set cycle 1} {$cycle <= $NumCycles} {incr cycle} {
     puts "Completed Bosch cycle $cycle"
 }
 
-# ---------------------------------------------------------------------
-# Save Final Geometry
-# ---------------------------------------------------------------------
+# === Task 3 Measurements (depth and CD) ===
+select z=0.5
+set depth_calc [expr { $NumCycles * $SiliconEtchRate * $EtchTime }]
+puts "DOE: Trench_Depth [format %.6f $depth_calc]"
+set mid_y [expr {$depth_calc / 2.0}]
+set bot_y [expr {$depth_calc - 0.05}]
+puts "==LAYERS_TOP_CD=="
+layers y=0.05 z=0.5
+puts "==LAYERS_MID_CD=="
+layers y=$mid_y z=0.5
+if { $bot_y > 0.05 } {
+    puts "==LAYERS_BOT_CD=="
+    layers y=$bot_y z=0.5
+} else {
+    puts "==LAYERS_BOT_CD=="
+    layers y=0.05 z=0.5
+}
+puts "==LAYERS_END=="
 
 struct tdr=flux_based_drie_out

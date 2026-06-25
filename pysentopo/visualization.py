@@ -16,6 +16,9 @@ DEFAULT_RIGHT = 0.9
 DEFAULT_FRONT = 0.1
 DEFAULT_BACK = 0.9
 
+# task : it seems this function searches for ==LAYERS_TOP_CD== in log files, though these keywords 
+# are present in .cmd files, the correspondg log file does not have it, please correct the code for cmd files
+#  in task1_results as well as this function of extract_depth_and_width.
 def extract_depth_and_width(log_filepath):
     """
     Parses an Sprocess log file to extract calculated trench depth and CD values (Top, Mid, Bottom).
@@ -33,18 +36,26 @@ def extract_depth_and_width(log_filepath):
         trench_depth = float(td_match.group(1))
         
     def get_cd(section_name):
-        pattern = rf'{section_name}(.*?)(?:==LAYERS_|$)'
-        match = re.search(pattern, content, re.DOTALL)
-        if not match:
-            return ""
-        block = match.group(1)
-        for line in block.split('\n'):
-            if 'gas' in line.lower():
-                numbers = re.findall(r'[-+]?\d+\.?\d*(?:[eE][+-]?\d+)?', line)
-                if len(numbers) >= 2:
-                    floats = [float(n) for n in numbers]
-                    return round(floats[1] - floats[0], 6)
-        return ""
+        """Return the CD (full width) for a given LAYERS_* marker.
+        The log contains a line like `puts "==LAYERS_TOP_CD=="` followed by
+        a `layers y=VALUE z=0.5` line. The CD is twice the y‑coordinate.
+        """
+        # Split the log into lines for easier sequential scanning
+        lines = content.splitlines()
+        cd = ""
+        for i, line in enumerate(lines):
+            if section_name in line:
+                # Look ahead for the next line that defines the layer
+                for j in range(i + 1, len(lines)):
+                    nxt = lines[j].strip()
+                    # Expect a line like: layers y=0.05 z=0.5
+                    m = re.search(r'layers\s+y=([\d.+-eE]+)', nxt)
+                    if m:
+                        y_val = float(m.group(1))
+                        cd = round(2 * y_val, 6)
+                    break
+                break
+        return cd
         
     top_cd = get_cd('==LAYERS_TOP_CD==')
     mid_cd = get_cd('==LAYERS_MID_CD==')
