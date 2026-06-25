@@ -111,6 +111,30 @@ def parse_log(filepath):
     over_etch = max(0.0, oxide_etch_depth - (oxide_thickness if oxide_thickness else 0.0))
     calculated_silicon_depth = silicon_etch_depth + over_etch
     
+    # Trench Depth and CD values from Task 3
+    trench_depth = ""
+    td_match = re.search(r'DOE:\s*Trench_Depth\s+(\S+)', content)
+    if td_match:
+        trench_depth = float(td_match.group(1))
+        
+    def get_cd(section_name):
+        pattern = rf'{section_name}(.*?)(?:==LAYERS_|$)'
+        match = re.search(pattern, content, re.DOTALL)
+        if not match:
+            return ""
+        block = match.group(1)
+        for line in block.split('\n'):
+            if 'gas' in line.lower():
+                numbers = re.findall(r'[-+]?\d+\.?\d*(?:[eE][+-]?\d+)?', line)
+                if len(numbers) >= 2:
+                    floats = [float(n) for n in numbers]
+                    return round(floats[1] - floats[0], 6)
+        return ""
+        
+    top_cd = get_cd('==LAYERS_TOP_CD==')
+    mid_cd = get_cd('==LAYERS_MID_CD==')
+    bot_cd = get_cd('==LAYERS_BOT_CD==')
+    
     return {
         "Substrate Geometry": substrate_geometry,
         "Oxide_thickness_deposited_(um)": oxide_thickness,
@@ -124,7 +148,11 @@ def parse_log(filepath):
         "Nodes": nodes,
         "Volumes": volumes,
         "Smallest Region": smallest_region,
-        "Smallest_Volume_(um2_or_um3)": smallest_volume
+        "Smallest_Volume_(um2_or_um3)": smallest_volume,
+        "Trench_Depth_(um)": trench_depth,
+        "Top_CD_(um)": top_cd,
+        "Mid_CD_(um)": mid_cd,
+        "Bottom_CD_(um)": bot_cd
     }
 
 def update_csv(csv_path):
@@ -177,7 +205,8 @@ def update_csv(csv_path):
         "Substrate Geometry", "Oxide_thickness_deposited_(um)", "Mask opening Geometry",
         "Etch type", "Requested_depth_(um)", "Material etched", "Photoresist_thickness_(um)",
         "Deposited vs Etched Thickness", "Etch_depth_calculated_(um)", "Nodes", "Volumes",
-        "Smallest Region", "Smallest_Volume_(um2_or_um3)"
+        "Smallest Region", "Smallest_Volume_(um2_or_um3)",
+        "Trench_Depth_(um)", "Top_CD_(um)", "Mid_CD_(um)", "Bottom_CD_(um)"
     ]
     
     # Find all new fields that aren't already in updated_fieldnames

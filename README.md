@@ -50,10 +50,10 @@ Update this section each time a change is made
 - [x] add these news columns to same csv files of task 1 and task 2
 
 ### Task 3:
-- [ ] In the current code there is no way to measure how much depth and width has been achieved, use .tdr and .log files find a way to extract depth and other dimension in the etching profile
-- [ ] In the csv file worked before, record the depth and bottom width, top width and mid width in the etching profile
-- [ ] write a python script that can generate a 3-d surface data simply by read row of task_result.csv file. Use different colors to high light different sections of the image and use depth,  bottom width, top width and mid width to give approximate visualization of the trench
-- Write a python script that export the tdr file data to ASCII or TIF, and then converts it to VTK format.
+- [x] In the current code there is no way to measure how much depth and width has been achieved, use .tdr and .log files find a way to extract depth and other dimension in the etching profile and complete the functions in pysentopo/visualization.py
+- [x] In the csv file task2_results/simulation_results.csv , record the depth and bottom width, top width and mid width in the etching profile
+- [x] write a function in pysentopo/visualization.py that can generate a 3-d surface data simply by reading row of task2_results/simulation_results.csv file. Use different colors to high light different sections of the image and use depth,  bottom width, top width and mid width to give approximate visualization of the trench
+- [x] Write a python function in pysentopo/visualization.py that export the tdr file data to ASCII or TIF, and then converts it to VTK format.
 
 ### Task 4:
 - [ ] Now also add the deposition simulation with C4F8 after each etching cycle, keep the time of deposition 1/3rd to 1/4th of the etching time 

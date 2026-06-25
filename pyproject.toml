@@ -4,12 +4,15 @@ version = "0.1.0"
 description = ""
 authors = ["Utkarsh <saraswat.utk@gmail.com>"]
 readme = "README.md"
-package-mode = false
+package-mode = true
+packages = [{include = "pysentopo"}]
 
 [tool.poetry.dependencies]
 python = "^3.8"
 paramiko = ">=3.0.0,<6.0.0"
 scp = "^0.15.0"
+numpy = "^1.21.0"
+matplotlib = "^3.5.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
