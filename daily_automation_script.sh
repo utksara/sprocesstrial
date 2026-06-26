@@ -17,3 +17,8 @@ timeout 120s sprocess BoschDRIE.cmd
 # timeout 120s sprocess MultiStepTSVProcess.cmd   
 # timeout 120s sprocess OxideMaskedHighAspectRatioEtch_withFlux.cmd
 cd ..
+
+# Git automation
+git add -A
+git commit -m "sentaurus_run_$(date +'%Y%m%d_%H%M%S')"
+git push

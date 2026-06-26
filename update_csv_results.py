@@ -438,7 +438,11 @@ def _update_single_csv(csv_path, log_path):
     print(f"Successfully updated CSV: {csv_path}")
 
 if __name__ == "__main__":
-    # Example usage:
-    # update_csv("task1_results/simulation_results.csv", 'log_20260624-144602/logs/OxideMaskedHighAspectRatioEtch_run_1.log')
-    # update_csv("etchingWithPlasma/results.csv", 'log_20260625-162840/logs/ion_enhanced_etch.log')
-    update_csv("etchingWithPlasma/results.csv", 'log_20260625-114230/logs')
+    import sys
+    if len(sys.argv) >= 3:
+        update_csv(sys.argv[1], sys.argv[2])
+    else:
+        # Example/default usage:
+        # update_csv("task1_results/simulation_results.csv", 'log_20260624-144602/logs/OxideMaskedHighAspectRatioEtch_run_1.log')
+        # update_csv("etchingWithPlasma/results.csv", 'log_20260625-162840/logs/ion_enhanced_etch.log')
+        update_csv("etchingWithPlasma/results.csv", 'log_20260625-114230/logs')

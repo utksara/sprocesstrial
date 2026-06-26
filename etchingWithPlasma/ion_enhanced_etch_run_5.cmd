@@ -17,21 +17,17 @@ init
 
 # ---------- initial structure ----------
 deposit material=Oxide thickness=1.0
-deposit material=PhotoResist thickness=0.4
 
 # ---------- mask ----------
-mask name=Mask1 left=0.35 right=0.65 front=0.35 back=0.65
+mask name=Mask1 left=0.35 right=0.65
 photo mask=Mask1 thickness=0.4
-
-# remove exposed resist
-etch material=PhotoResist type=isotropic thickness=0.4
-strip PhotoResist
 
 # ---------- oxide etch (ion-enhanced approximation) ----------
 # replaces:
 # machetch + plasma angular distribution model
 
 etch material=Oxide type=anisotropic rate=1.5 time=1.7
+strip PhotoResist
 
 # ---------- output ----------
 # === Task 3 Measurements (depth and CD) ===
@@ -39,18 +35,16 @@ set rate 1.5
 set time 1.7
 set depth_calc [expr { $rate * $time }]
 puts "DOE: Trench_Depth [format %.6f $depth_calc]"
-set mid_y [expr { 2.0 - ($depth_calc / 2.0) }]
-set bot_y [expr { 2.0 - ($depth_calc - 0.05) }]
-puts "==LAYERS_TOP_CD=="
-layers y=1.95
-puts "==LAYERS_MID_CD=="
-layers y=$mid_y
-if { $bot_y < 1.95 } {
-    puts "==LAYERS_BOT_CD=="
-    layers y=$bot_y
-} else {
-    puts "==LAYERS_BOT_CD=="
-    layers y=1.95
+set mid_x [expr { -1.0 + ($depth_calc / 2.0) }]
+set bot_x [expr { -1.0 + $depth_calc - 0.05 }]
+if { $bot_x > -0.05 } {
+    set bot_x -0.05
 }
+puts "==LAYERS_TOP_CD=="
+layers x=-0.95
+puts "==LAYERS_MID_CD=="
+layers x=$mid_x
+puts "==LAYERS_BOT_CD=="
+layers x=$bot_x
 puts "==LAYERS_END=="
 struct tdr=ion_enhanced_etch_run_5

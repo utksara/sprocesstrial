@@ -76,10 +76,11 @@ mkdir -p "$TARGET_DIR/$LOG_DIR" "$TARGET_DIR/$TDR_DIR"
 # Find all .cmd files in the specified directory
 find "$TARGET_DIR" -type f -name "*.cmd" | while read -r cmdfile; do
     echo "[Remote] Running $cmdfile..."
-    sprocess "$cmdfile"
     logfile="${{cmdfile%.cmd}}.log"
-    if [ -f "$logfile" ]; then
-        mv "$logfile" "$TARGET_DIR/$LOG_DIR/"
+    stdoutfile="${{cmdfile%.cmd}}.stdout"
+    sprocess "$cmdfile" > "$stdoutfile" 2>&1
+    if [ -f "$stdoutfile" ]; then
+        mv "$stdoutfile" "$TARGET_DIR/$LOG_DIR/$(basename "$logfile")"
     fi
     
     base="$(basename "$cmdfile" .cmd)"

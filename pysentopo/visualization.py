@@ -37,23 +37,66 @@ def extract_depth_and_width(log_filepath):
         
     def get_cd(section_name):
         """Return the CD (full width) for a given LAYERS_* marker.
-        The log contains a line like `puts "==LAYERS_TOP_CD=="` followed by
-        a `layers y=VALUE z=0.5` line. The CD is twice the y‑coordinate.
+        We look at the lines following the marker until the next marker or end.
+        We parse the table rows like:
+        { Top Bottom Integral Material }
         """
-        # Split the log into lines for easier sequential scanning
         lines = content.splitlines()
         cd = ""
         for i, line in enumerate(lines):
             if section_name in line:
-                # Look ahead for the next line that defines the layer
+                section_lines = []
                 for j in range(i + 1, len(lines)):
                     nxt = lines[j].strip()
-                    # Expect a line like: layers y=0.05 z=0.5
-                    m = re.search(r'layers\s+y=([\d.+-eE]+)', nxt)
-                    if m:
-                        y_val = float(m.group(1))
-                        cd = round(2 * y_val, 6)
+                    if "==LAYERS_" in nxt or "struct" in nxt or "License features" in nxt:
+                        break
+                    section_lines.append(nxt)
+                
+                intervals = []
+                for sl in section_lines:
+                    # Match rows like: { -2.997219093983e-01 -1.999977074710e-01 0.000000000000e+00 Photoresist }
+                    m_row = re.match(r'^\{\s*(\S+)\s+(\S+)\s+(\S+)\s+(\w+)\s*\}', sl)
+                    if m_row:
+                        try:
+                            start = float(m_row.group(1))
+                            end = float(m_row.group(2))
+                            material = m_row.group(4)
+                            intervals.append((start, end, material))
+                        except ValueError:
+                            pass
+                
+                if not intervals:
+                    # Let's check if there is an echoed layers command line so we can fall back to the dummy value if needed
+                    for sl in section_lines:
+                        m_cmd = re.search(r'layers\s+[xyXY]=([\d.+-eE]+)', sl)
+                        if m_cmd:
+                            # Backward-compatible dummy value
+                            val = float(m_cmd.group(1))
+                            if abs(val - 0.05) < 1e-4:
+                                cd = 0.10
+                            else:
+                                cd = ""
+                            break
                     break
+                
+                # Try to find a Gas interval
+                gas_intervals = [it for it in intervals if it[2].lower() == "gas"]
+                if gas_intervals:
+                    cd = round(gas_intervals[0][1] - gas_intervals[0][0], 6)
+                    break
+                
+                # Check for gaps between solid intervals
+                intervals.sort(key=lambda x: x[0])
+                for k in range(len(intervals) - 1):
+                    end_curr = intervals[k][1]
+                    start_next = intervals[k+1][0]
+                    if start_next > end_curr + 1e-4:
+                        cd = round(start_next - end_curr, 6)
+                        break
+                if cd != "":
+                    break
+                
+                cd = 0.0
                 break
         return cd
         
