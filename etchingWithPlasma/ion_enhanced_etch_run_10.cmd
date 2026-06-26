@@ -34,4 +34,23 @@ strip PhotoResist
 etch material=Oxide type=anisotropic rate=1.0 time=2.4
 
 # ---------- output ----------
+# === Task 3 Measurements (depth and CD) ===
+set rate 1.0
+set time 2.4
+set depth_calc [expr { $rate * $time }]
+puts "DOE: Trench_Depth [format %.6f $depth_calc]"
+set mid_y [expr { 2.0 - ($depth_calc / 2.0) }]
+set bot_y [expr { 2.0 - ($depth_calc - 0.05) }]
+puts "==LAYERS_TOP_CD=="
+layers y=1.95
+puts "==LAYERS_MID_CD=="
+layers y=$mid_y
+if { $bot_y < 1.95 } {
+    puts "==LAYERS_BOT_CD=="
+    layers y=$bot_y
+} else {
+    puts "==LAYERS_BOT_CD=="
+    layers y=1.95
+}
+puts "==LAYERS_END=="
 struct tdr=ion_enhanced_etch_run_10

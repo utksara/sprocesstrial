@@ -52,12 +52,13 @@ def parse_log(filepath):
             if m:
                 pr_thickness = float(m.group(1))
                 
-    # 5. Etch steps, requested depths
+    silicon_etch_rate = ""
+    oxide_etch_rate = ""
+    etch_time = ""
     oxide_etch_depth = 0.0
     silicon_etch_depth = 0.0
     oxide_etch_type = "None"
     silicon_etch_type = "None"
-    
     for line in content.split('\n'):
         if "etch" in line.lower() and "material=" in line.lower():
             # Material
@@ -82,9 +83,17 @@ def parse_log(filepath):
             if mat.lower() == "oxide":
                 oxide_etch_depth = depth
                 oxide_etch_type = etype
+                if rate_match:
+                    oxide_etch_rate = float(rate_match.group(1))
+                if time_match:
+                    etch_time = float(time_match.group(1))
             elif mat.lower() == "silicon":
                 silicon_etch_depth += depth
                 silicon_etch_type = etype
+                if rate_match:
+                    silicon_etch_rate = float(rate_match.group(1))
+                if time_match:
+                    etch_time = float(time_match.group(1))
 
     # 6. Nodes and Volumes after etching
     nodes = ""
@@ -136,25 +145,130 @@ def parse_log(filepath):
         "Trench_Depth_(um)": trench_depth,
         "Top_CD_(um)": top_cd,
         "Mid_CD_(um)": mid_cd,
-        "Bottom_CD_(um)": bot_cd
+        "Bottom_CD_(um)": bot_cd,
+        "Silicon_Etch_Rate_(um/s)": silicon_etch_rate or (oxide_etch_rate if "task2" in filepath else ""),
+        "Silicon_Etch_Rate_(um/min)": silicon_etch_rate or (oxide_etch_rate if "task2" not in filepath else ""),
+        "Etch_Time_(s)": etch_time
     }
 
-# modify the function such that it also takes log_path as an input
-def update_csv(csv_path, log_path):
-    
-    # task : utilize extract_depth_and_width(log_filepath) from pysentopo/visualization.py to fill currently blank values of Trench_Depth_(um)	Top_CD_(um)	Mid_CD_(um)	Bottom_CD_(um
-    if not os.path.exists(csv_path):
-        print(f"CSV not found: {csv_path}")
-        return
+TASK1_HEADERS = [
+    "id", "Pressure_(mTorr)", "RF_Power_(W)", "Bias_Voltage_(V)", "SF6_Flow_(sccm)", 
+    "Silicon_Etch_Rate_(um/min)", "cmd_file", "tdr_file", "log_file", "changes_observed",
+    "Trench_Depth_(um)", "Top_CD_(um)", "Mid_CD_(um)", "Bottom_CD_(um)",
+    "Substrate Geometry", "Oxide_thickness_deposited_(um)", "Mask opening Geometry",
+    "Etch type", "Requested_depth_(um)", "Material etched", "Photoresist_thickness_(um)",
+    "Deposited vs Etched Thickness", "Etch_depth_calculated_(um)", "Nodes", "Volumes",
+    "Smallest Region", "Smallest_Volume_(um2_or_um3)"
+]
+
+TASK2_HEADERS = [
+    "id", "Pressure_(mTorr)", "RF_Power_(W)", "Bias_Voltage_(V)", "SF6_Flow_(sccm)", "C4F8_Flow_(sccm)",
+    "SF6_Flux_(10e15_cm-2_s-1)", "C4F8_Flux_(10e15_cm-2_s-1)", "Ion_Flux_(10e15_cm-2_s-1)",
+    "Silicon_Etch_Rate_(um/s)", "Polymer_Dep_Rate_(um/s)", "Etch_Time_(s)", "Dep_Time_(s)", "Num_Cycles",
+    "cmd_file", "tdr_file", "log_file", "description",
+    "Substrate Geometry", "Oxide_thickness_deposited_(um)", "Mask opening Geometry",
+    "Etch type", "Requested_depth_(um)", "Material etched", "Photoresist_thickness_(um)",
+    "Deposited vs Etched Thickness", "Etch_depth_calculated_(um)", "Nodes", "Volumes",
+    "Smallest Region", "Smallest_Volume_(um2_or_um3)",
+    "Trench_Depth_(um)", "Top_CD_(um)", "Mid_CD_(um)", "Bottom_CD_(um)"
+]
+
+DEFAULT_HEADERS = [
+    "id", "Pressure_(mTorr)", "RF_Power_(W)", "Bias_Voltage_(V)", "SF6_Flow_(sccm)", "C4F8_Flow_(sccm)",
+    "SF6_Flux_(10e15_cm-2_s-1)", "C4F8_Flux_(10e15_cm-2_s-1)", "Ion_Flux_(10e15_cm-2_s-1)",
+    "Silicon_Etch_Rate_(um/s)", "Silicon_Etch_Rate_(um/min)", "Polymer_Dep_Rate_(um/s)", 
+    "Etch_Time_(s)", "Dep_Time_(s)", "Num_Cycles",
+    "cmd_file", "tdr_file", "log_file", "description", "changes_observed",
+    "Substrate Geometry", "Oxide_thickness_deposited_(um)", "Mask opening Geometry",
+    "Etch type", "Requested_depth_(um)", "Material etched", "Photoresist_thickness_(um)",
+    "Deposited vs Etched Thickness", "Etch_depth_calculated_(um)", "Nodes", "Volumes",
+    "Smallest Region", "Smallest_Volume_(um2_or_um3)",
+    "Trench_Depth_(um)", "Top_CD_(um)", "Mid_CD_(um)", "Bottom_CD_(um)"
+]
+
+def find_corresponding_cmd(log_path):
+    log_basename = os.path.basename(log_path)
+    cmd_basename = log_basename.replace(".log", ".cmd")
+    workspace_root = os.path.dirname(os.path.abspath(__file__))
+    for root, dirs, files in os.walk(workspace_root):
+        if cmd_basename in files:
+            return os.path.join(root, cmd_basename)
+    return None
+
+def parse_cmd(filepath):
+    if not filepath or not os.path.exists(filepath):
+        return {}
+    with open(filepath, 'r') as f:
+        content = f.read()
+    variables = {}
+    for match in re.finditer(r'set\s+(\w+)\s+(\S+)', content):
+        name = match.group(1)
+        val = match.group(2).strip()
+        try:
+            if '.' in val:
+                val = float(val)
+            else:
+                val = int(val)
+        except ValueError:
+            pass
+        variables[name] = val
         
-    rows = []
-    with open(csv_path, 'r', newline='') as f:
-        reader = csv.DictReader(f)
-        fieldnames = reader.fieldnames
-        for row in reader:
-            rows.append(row)
-            
-    # Define rename mapping for older headers (if present)
+    description = ""
+    for line in content.split('\n'):
+        line = line.strip()
+        if line.startswith("#"):
+            desc_candidate = line.lstrip("#").strip()
+            if desc_candidate and not any(k in desc_candidate for k in ["===", "scenario", "math", "domain", "output", "Measurements"]):
+                description = desc_candidate
+                break
+    if description:
+        variables["description"] = description
+    return variables
+
+def find_tdr_file(log_path, cmd_basename):
+    parent_dir = os.path.dirname(os.path.dirname(log_path))
+    tdr_dir = os.path.join(parent_dir, "tdrs")
+    if os.path.exists(tdr_dir):
+        for f in os.listdir(tdr_dir):
+            if f.startswith(cmd_basename) and f.endswith(".tdr"):
+                return os.path.join(tdr_dir, f)
+    return ""
+
+# task :  modify log path such that if it is directory instad of file, all log files in the directory are parsed
+def update_csv(csv_path, log_path):
+    if os.path.isdir(log_path):
+        log_files = []
+        for root, dirs, files in os.walk(log_path):
+            for file in files:
+                if file.endswith(".log"):
+                    log_files.append(os.path.join(root, file))
+        if not log_files:
+            print(f"No log files found in directory: {log_path}")
+            return
+        
+        log_files.sort()
+        for lf in log_files:
+            print(f"Processing log file: {lf}")
+            _update_single_csv(csv_path, lf)
+    else:
+        _update_single_csv(csv_path, log_path)
+
+def _update_single_csv(csv_path, log_path):
+    # Ensure parent directory of CSV exists
+    csv_dir = os.path.dirname(csv_path)
+    if csv_dir and not os.path.exists(csv_dir):
+        os.makedirs(csv_dir, exist_ok=True)
+
+    is_empty = not os.path.exists(csv_path) or os.path.getsize(csv_path) == 0
+
+    new_fields = [
+        "Substrate Geometry", "Oxide_thickness_deposited_(um)", "Mask opening Geometry",
+        "Etch type", "Requested_depth_(um)", "Material etched", "Photoresist_thickness_(um)",
+        "Deposited vs Etched Thickness", "Etch_depth_calculated_(um)", "Nodes", "Volumes",
+        "Smallest Region", "Smallest_Volume_(um2_or_um3)",
+        "Trench_Depth_(um)", "Top_CD_(um)", "Mid_CD_(um)", "Bottom_CD_(um)"
+    ]
+
     rename_map = {
         "Pressure_mTorr": "Pressure_(mTorr)",
         "RFPower_W": "RF_Power_(W)",
@@ -171,45 +285,149 @@ def update_csv(csv_path, log_path):
         "Mid_CD": "Mid_CD_(um)",
         "Bottom_CD": "Bottom_CD_(um)"
     }
-    
-    # Apply header renaming to existing fields
-    updated_fieldnames = []
-    for f in fieldnames:
-        new_f = rename_map.get(f, f)
-        if new_f not in updated_fieldnames:
-            updated_fieldnames.append(new_f)
+
+    if is_empty:
+        # Determine headers based on path or cmd file context
+        cmd_path = find_corresponding_cmd(log_path)
+        is_task1 = "task1" in csv_path or "task1" in log_path
+        is_task2 = "task2" in csv_path or "task2" in log_path
+        if not is_task1 and not is_task2 and cmd_path:
+            with open(cmd_path, 'r') as f:
+                cmd_content = f.read()
+            if "SiliconEtchRate" in cmd_content and "PolymerDepRate" in cmd_content:
+                is_task2 = True
+            elif "SiliconEtchRate" in cmd_content:
+                is_task1 = True
+                
+        if is_task1:
+            updated_fieldnames = list(TASK1_HEADERS)
+        elif is_task2:
+            updated_fieldnames = list(TASK2_HEADERS)
+        else:
+            updated_fieldnames = list(DEFAULT_HEADERS)
             
-    # Remap keys in existing rows
-    remapped_rows = []
-    for row in rows:
+        remapped_rows = []
+    else:
+        rows = []
+        with open(csv_path, 'r', newline='') as f:
+            reader = csv.DictReader(f)
+            fieldnames = reader.fieldnames
+            for row in reader:
+                rows.append(row)
+                
+        updated_fieldnames = []
+        for f in fieldnames:
+            new_f = rename_map.get(f, f)
+            if new_f not in updated_fieldnames:
+                updated_fieldnames.append(new_f)
+                
+        remapped_rows = []
+        for row in rows:
+            new_row = {}
+            for k, v in row.items():
+                new_row[rename_map.get(k, k)] = v
+            remapped_rows.append(new_row)
+            
+        fields_to_add = [f for f in new_fields if f not in updated_fieldnames]
+        updated_fieldnames = updated_fieldnames + fields_to_add
+
+    log_basename = os.path.basename(log_path)
+    found_row = None
+    for row in remapped_rows:
+        row_log = row.get("log_file", "") or row.get("log_path", "")
+        if row_log and os.path.basename(row_log) == log_basename:
+            found_row = row
+            break
+
+    if not found_row:
         new_row = {}
-        for k, v in row.items():
-            new_row[rename_map.get(k, k)] = v
-        remapped_rows.append(new_row)
+        existing_ids = []
+        for r in remapped_rows:
+            try:
+                existing_ids.append(int(r.get("id", 0)))
+            except:
+                pass
+        new_row["id"] = max(existing_ids) + 1 if existing_ids else 1
+        new_row["log_file"] = log_path
         
-    # New fields to add
-    new_fields = [
-        "Substrate Geometry", "Oxide_thickness_deposited_(um)", "Mask opening Geometry",
-        "Etch type", "Requested_depth_(um)", "Material etched", "Photoresist_thickness_(um)",
-        "Deposited vs Etched Thickness", "Etch_depth_calculated_(um)", "Nodes", "Volumes",
-        "Smallest Region", "Smallest_Volume_(um2_or_um3)",
-        "Trench_Depth_(um)", "Top_CD_(um)", "Mid_CD_(um)", "Bottom_CD_(um)"
-    ]
-    
-    # Find all new fields that aren't already in updated_fieldnames
-    fields_to_add = [f for f in new_fields if f not in updated_fieldnames]
-    updated_fieldnames = updated_fieldnames + fields_to_add
-    
+        cmd_path = find_corresponding_cmd(log_path)
+        if cmd_path:
+            new_row["cmd_file"] = os.path.relpath(cmd_path, os.getcwd())
+            cmd_vars = parse_cmd(cmd_path)
+            
+            var_to_header = {
+                "Pressure_mTorr": "Pressure_(mTorr)",
+                "RFPower_W": "RF_Power_(W)",
+                "ICPPower_W": "RF_Power_(W)",
+                "Bias_V": "Bias_Voltage_(V)",
+                "SF6_sccm": "SF6_Flow_(sccm)",
+                "C4F8_sccm": "C4F8_Flow_(sccm)",
+                "PolymerDepRate": "Polymer_Dep_Rate_(um/s)",
+                "EtchTime": "Etch_Time_(s)",
+                "DepTime": "Dep_Time_(s)",
+                "NumCycles": "Num_Cycles",
+                "description": "description"
+            }
+            for var_name, header_name in var_to_header.items():
+                if var_name in cmd_vars and header_name in updated_fieldnames:
+                    new_row[header_name] = cmd_vars[var_name]
+                    
+            if "SiliconEtchRate" in cmd_vars:
+                rate = cmd_vars["SiliconEtchRate"]
+                if "Silicon_Etch_Rate_(um/s)" in updated_fieldnames:
+                    new_row["Silicon_Etch_Rate_(um/s)"] = rate
+                elif "Silicon_Etch_Rate_(um/min)" in updated_fieldnames:
+                    new_row["Silicon_Etch_Rate_(um/min)"] = rate
+                else:
+                    if "task2" in csv_path or "Flux" in cmd_path or rate > 0.05:
+                        new_row["Silicon_Etch_Rate_(um/s)"] = rate
+                    else:
+                        new_row["Silicon_Etch_Rate_(um/min)"] = rate
+                        
+            def convert_flux(val):
+                try:
+                    f_val = float(val)
+                    return int(f_val / 1.0e15)
+                except:
+                    return val
+                    
+            for flux_var, header in [("SF6_Flux", "SF6_Flux_(10e15_cm-2_s-1)"), 
+                                     ("C4F8_Flux", "C4F8_Flux_(10e15_cm-2_s-1)"), 
+                                     ("IonFlux", "Ion_Flux_(10e15_cm-2_s-1)")]:
+                if flux_var in cmd_vars and header in updated_fieldnames:
+                    new_row[header] = convert_flux(cmd_vars[flux_var])
+            
+            cmd_basename_no_ext = os.path.splitext(os.path.basename(cmd_path))[0]
+            tdr_file_path = find_tdr_file(log_path, cmd_basename_no_ext)
+            if tdr_file_path:
+                new_row["tdr_file"] = os.path.relpath(tdr_file_path, os.getcwd())
+            else:
+                new_row["tdr_file"] = ""
+        else:
+            new_row["cmd_file"] = ""
+            new_row["tdr_file"] = ""
+            
+        remapped_rows.append(new_row)
+
     final_rows = []
     for row in remapped_rows:
-        # log_path = row.get("log_file")
-        parsed_data = parse_log(log_path)
-        if parsed_data:
-            for field in new_fields:
-                row[field] = parsed_data[field]
+        row_log = row.get("log_file", "") or row.get("log_path", "")
+        if row_log and os.path.basename(row_log) == log_basename:
+            parsed_data = parse_log(log_path)
+            if parsed_data:
+                for field in new_fields:
+                    row[field] = parsed_data.get(field, "")
+                # Also populate rate/time if they are in parsed_data and not set in row yet
+                for field in ["Silicon_Etch_Rate_(um/s)", "Silicon_Etch_Rate_(um/min)", "Etch_Time_(s)"]:
+                    if field in updated_fieldnames and (row.get(field) is None or row.get(field) == ""):
+                        row[field] = parsed_data.get(field, "")
+            else:
+                for field in new_fields:
+                    row[field] = "N/A"
         else:
-            for field in new_fields:
-                row[field] = "N/A"
+            for field in updated_fieldnames:
+                if field not in row:
+                    row[field] = ""
         final_rows.append(row)
         
     with open(csv_path, 'w', newline='') as f:
@@ -220,5 +438,7 @@ def update_csv(csv_path, log_path):
     print(f"Successfully updated CSV: {csv_path}")
 
 if __name__ == "__main__":
+    # Example usage:
     # update_csv("task1_results/simulation_results.csv", 'log_20260624-144602/logs/OxideMaskedHighAspectRatioEtch_run_1.log')
-    update_csv("task2_results/simulation_results.csv", 'log_20260625-131100/logs/ OxideMaskedHighAspectRatioEtch_withFlux_run_2.log')
+    # update_csv("etchingWithPlasma/results.csv", 'log_20260625-162840/logs/ion_enhanced_etch.log')
+    update_csv("etchingWithPlasma/results.csv", 'log_20260625-114230/logs')
