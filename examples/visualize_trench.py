@@ -2,8 +2,8 @@ import sys
 from pysentopo import visualize_from_csv
 
 if __name__ == "__main__":
-    csv_file = "task2_results/simulation_results.csv"
-    # csv_file = "etchingWithPlasma/results.csv"
+    # csv_file = "task2_results/simulation_results.csv"
+    csv_file = "etchingWithPlasma/results.csv"
     row_id = 7
     if len(sys.argv) > 1:
         row_id = int(sys.argv[1])

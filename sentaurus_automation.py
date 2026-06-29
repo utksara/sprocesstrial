@@ -2,15 +2,13 @@ import os
 import time
 import paramiko
 from scp import SCPClient # Optional, but we can use Paramiko's built-in SFTP for standard copying
-
+import sys
 
 # --- CONFIGURATION ---
 REMOTE_HOST = "10.114.1.79"
 REMOTE_USER = "utkarsh"
 REMOTE_PASS = "user123$"  # Or use pkey for SSH keys
 REMOTE_TARGET_DIR = "/home/utkarsh/sentaurus"
-
-import sys
 
 LOCAL_FOLDER_TO_COPY = "./etchingWithPlasma"
 if len(sys.argv) > 1:

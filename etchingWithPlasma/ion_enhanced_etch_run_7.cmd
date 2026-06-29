@@ -31,14 +31,21 @@ strip PhotoResist
 
 # ---------- output ----------
 # === Task 3 Measurements (depth and CD) ===
-set rate 1.0
-set time 1.2
-set depth_calc [expr { $rate * $time }]
+set bottom_x 0.0
+if { [catch {set bottom_x [interface Gas / Oxide y=0.5]} err] } {
+    if { [catch {set bottom_x [interface Gas / Silicon y=0.5]} err2] } {
+        set bottom_x 0.0
+    }
+}
+set depth_calc [expr { $bottom_x - (-1.0) }]
+if { $depth_calc < 0.0 } {
+    set depth_calc 0.0
+}
 puts "DOE: Trench_Depth [format %.6f $depth_calc]"
 set mid_x [expr { -1.0 + ($depth_calc / 2.0) }]
-set bot_x [expr { -1.0 + $depth_calc - 0.05 }]
-if { $bot_x > -0.05 } {
-    set bot_x -0.05
+set bot_x [expr { $bottom_x - 0.05 }]
+if { $bot_x < -0.95 } {
+    set bot_x -0.95
 }
 puts "==LAYERS_TOP_CD=="
 layers x=-0.95
