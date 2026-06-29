@@ -5,20 +5,6 @@
 math dimension=2
 
 # ---------------------------------------------------------------------
-# Reactor Conditions (for documentation/calibration)
-# ---------------------------------------------------------------------
-
-set Pressure_mTorr 10
-set ICPPower_W 500
-set Bias_V 250
-
-set SF6_Flux       8.0e+17
-set IonFlux        2.0e+16
-set IonEnergy_eV   250
-
-set C4F8_Flux      1.5e+17
-
-# ---------------------------------------------------------------------
 # Convert Physical Fluxes -> Effective Process Parameters
 #
 # These values would normally come from calibration,
@@ -31,8 +17,7 @@ set SiliconEtchRate 0.5387
 set DepTime 2.0
 set EtchTime 5.0
 
-set NumCycles 5
-
+set NumCycles 2
 # ---------------------------------------------------------------------
 # Mesh
 # ---------------------------------------------------------------------
@@ -98,22 +83,4 @@ for {set cycle 1} {$cycle <= $NumCycles} {incr cycle} {
     puts "Completed Bosch cycle $cycle"
 }
 
-# === Task 3 Measurements (depth and CD) ===
-set depth_calc [expr { $NumCycles * $SiliconEtchRate * $EtchTime }]
-puts "DOE: Trench_Depth [format %.6f $depth_calc]"
-set mid_y [expr {$depth_calc / 2.0}]
-set bot_y [expr {$depth_calc - 0.05}]
-puts "==LAYERS_TOP_CD=="
-layers y=0.05
-puts "==LAYERS_MID_CD=="
-layers y=$mid_y
-if { $bot_y > 0.05 } {
-    puts "==LAYERS_BOT_CD=="
-    layers y=$bot_y
-} else {
-    puts "==LAYERS_BOT_CD=="
-    layers y=0.05
-}
-puts "==LAYERS_END=="
-
-struct tdr=OxideMaskedHighAspectRatioEtch_withFlux_run_1
+struct tdr=ex6

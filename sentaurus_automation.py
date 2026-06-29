@@ -5,12 +5,12 @@ from scp import SCPClient # Optional, but we can use Paramiko's built-in SFTP fo
 import sys
 
 # --- CONFIGURATION ---
-REMOTE_HOST = "10.114.1.79"
+REMOTE_HOST = "10.114.1.85"
 REMOTE_USER = "utkarsh"
 REMOTE_PASS = "user123$"  # Or use pkey for SSH keys
 REMOTE_TARGET_DIR = "/home/utkarsh/sentaurus"
 
-LOCAL_FOLDER_TO_COPY = "./etchingWithPlasma"
+LOCAL_FOLDER_TO_COPY = "./asentaurusDemo"
 if len(sys.argv) > 1:
     LOCAL_FOLDER_TO_COPY = sys.argv[1]
 
@@ -71,12 +71,13 @@ LOG_DIR="logs"
 TDR_DIR="tdrs"
 mkdir -p "$TARGET_DIR/$LOG_DIR" "$TARGET_DIR/$TDR_DIR"
 
+sptopo3d asentaurusDemo/Structures/etchin_input.cmd 
 # Find all .cmd files in the specified directory
 find "$TARGET_DIR" -type f -name "*.cmd" | while read -r cmdfile; do
     echo "[Remote] Running $cmdfile..."
     logfile="${{cmdfile%.cmd}}.log"
     stdoutfile="${{cmdfile%.cmd}}.stdout"
-    sprocess "$cmdfile" > "$stdoutfile" 2>&1
+    sptopo3d "$cmdfile" > "$stdoutfile" 2>&1
     if [ -f "$stdoutfile" ]; then
         mv "$stdoutfile" "$TARGET_DIR/$LOG_DIR/$(basename "$logfile")"
     fi

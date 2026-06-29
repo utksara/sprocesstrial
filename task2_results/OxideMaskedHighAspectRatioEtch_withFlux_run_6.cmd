@@ -31,7 +31,7 @@ set SiliconEtchRate 0.5387
 set DepTime 2.0
 set EtchTime 5.0
 
-set NumCycles 10
+set NumCycles 2
 
 # ---------------------------------------------------------------------
 # Mesh

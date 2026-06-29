@@ -16,7 +16,7 @@ set SiliconEtchRate 0.5387
 
 set DepTime 2.0
 set EtchTime 5.0
-set NumCycles 5
+set NumCycles 2
 
 line x location=0.0 spacing=0.1 tag=Left
 line x location=1.0 spacing=0.1 tag=Right
